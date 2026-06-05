@@ -1,0 +1,51 @@
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
+
+.page {
+  @include flex-center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, $green, darken(#165B33, 10%));
+}
+
+.content {
+  text-align: center;
+  color: $white;
+  padding: $space-xl;
+}
+
+.icon {
+  font-size: 5rem;
+  margin-bottom: $space-md;
+  animation: sway 3s ease-in-out infinite alternate;
+}
+
+.code {
+  font-family: $font-serif;
+  font-size: 6rem;
+  font-weight: 700;
+  color: $gold;
+  line-height: 1;
+  margin-bottom: $space-sm;
+}
+
+.title {
+  @include heading-lg;
+  color: $white;
+  margin-bottom: $space-md;
+}
+
+.message {
+  font-size: 1.05rem;
+  color: rgba($white, 0.75);
+  margin-bottom: $space-xl;
+}
+
+.homeLink {
+  @include btn-gold;
+  font-size: 0.9rem;
+}
+
+@keyframes sway {
+  from { transform: rotate(-5deg); }
+  to   { transform: rotate(5deg); }
+}

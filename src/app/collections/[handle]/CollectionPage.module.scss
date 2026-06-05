@@ -1,0 +1,348 @@
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
+
+.page {
+  min-height: 100vh;
+}
+
+// ── Collection header ────────────────────────────────────────────────────────
+.collectionHeader {
+  position: relative;
+  height: 280px;
+  overflow: hidden;
+
+  @include sm-down {
+    height: 200px;
+  }
+}
+
+.headerImage {
+  position: absolute;
+  inset: 0;
+}
+
+.headerImg {
+  object-fit: cover;
+}
+
+.headerOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba($green, 0.6) 0%,
+    rgba($charcoal, 0.75) 100%
+  );
+}
+
+.headerContent {
+  position: absolute;
+  inset: 0;
+  @include flex-center;
+  flex-direction: column;
+  text-align: center;
+  color: $white;
+  padding: $space-lg;
+
+  &.noImage {
+    position: relative;
+    background: linear-gradient(135deg, $green, darken(#165B33, 8%));
+  }
+}
+
+.collectionTitle {
+  @include heading-xl;
+  color: $white;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.collectionDesc {
+  margin-top: $space-sm;
+  font-size: 1rem;
+  color: rgba($white, 0.85);
+  max-width: 480px;
+}
+
+.productCount {
+  margin-top: $space-sm;
+  font-size: 0.8rem;
+  color: rgba($white, 0.6);
+  letter-spacing: 0.05em;
+}
+
+// ── Body ─────────────────────────────────────────────────────────────────────
+.body {
+  @include container;
+  padding-block: $space-xl $space-3xl;
+}
+
+// ── Toolbar ──────────────────────────────────────────────────────────────────
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: $space-md;
+  padding-bottom: $space-lg;
+  border-bottom: 1px solid $grey-light;
+  margin-bottom: $space-lg;
+  flex-wrap: wrap;
+}
+
+.filterToggle {
+  @include btn-base;
+  padding: 8px 16px;
+  background: transparent;
+  color: $green;
+  border-color: $green;
+  font-size: 0.85rem;
+  position: relative;
+
+  &:hover, &.active {
+    background: $green;
+    color: $white;
+  }
+}
+
+.filterDot {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 10px;
+  height: 10px;
+  background: $red;
+  border-radius: 50%;
+  border: 2px solid $cream;
+}
+
+.clearFilters {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: $red;
+  text-decoration: underline;
+  transition: color $transition-fast;
+
+  &:hover { color: $red-dark; }
+}
+
+.spacer {
+  flex: 1;
+}
+
+.sortLabel {
+  font-size: 0.85rem;
+  color: $grey;
+  white-space: nowrap;
+}
+
+.sortSelect {
+  padding: 8px 12px;
+  border: 1px solid $grey-light;
+  border-radius: $border-radius;
+  font-family: $font-sans;
+  font-size: 0.875rem;
+  color: $charcoal;
+  background: $white;
+  cursor: pointer;
+  transition: border-color $transition-fast;
+
+  &:hover, &:focus {
+    border-color: $green;
+    outline: none;
+  }
+}
+
+// ── Layout ────────────────────────────────────────────────────────────────────
+.layout {
+  display: flex;
+  gap: $space-xl;
+  align-items: flex-start;
+}
+
+// ── Filter panel ──────────────────────────────────────────────────────────────
+.filterPanel {
+  width: 240px;
+  flex-shrink: 0;
+  background: $white;
+  border-radius: $border-radius-lg;
+  border: 1px solid $grey-light;
+  padding: $space-lg;
+  display: flex;
+  flex-direction: column;
+  gap: $space-lg;
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: max-height $transition-mid, opacity $transition-mid;
+
+  &.filterOpen {
+    max-height: 600px;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  @include md-down {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: $z-drawer;
+    border-radius: $border-radius-lg $border-radius-lg 0 0;
+    max-height: 0;
+
+    &.filterOpen {
+      max-height: 80vh;
+      box-shadow: $shadow-xl;
+    }
+  }
+}
+
+.filterSection {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+}
+
+.filterHeading {
+  font-family: $font-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: $green;
+  padding-bottom: $space-sm;
+  border-bottom: 1px solid $grey-light;
+}
+
+.checkLabel {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+  font-size: 0.9rem;
+  cursor: pointer;
+
+  input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: $green;
+    cursor: pointer;
+  }
+
+  &:hover span {
+    color: $green;
+  }
+}
+
+.priceInputs {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+}
+
+.priceField {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: $grey;
+  }
+
+  input {
+    width: 100%;
+    padding: 6px 8px;
+    border: 1px solid $grey-light;
+    border-radius: $border-radius;
+    font-size: 0.875rem;
+    color: $charcoal;
+    font-family: $font-sans;
+    transition: border-color $transition-fast;
+
+    &:focus {
+      outline: none;
+      border-color: $green;
+    }
+
+    &::placeholder { color: $grey; }
+  }
+}
+
+.priceSep {
+  color: $grey;
+  padding-top: 18px;
+  flex-shrink: 0;
+}
+
+// ── Grid ──────────────────────────────────────────────────────────────────────
+.gridWrapper {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+}
+
+.loadingBar {
+  position: absolute;
+  top: -4px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, $red, $gold, $green);
+  border-radius: 2px;
+  animation: loadSlide 1.2s ease-in-out infinite;
+  z-index: 1;
+}
+
+@keyframes loadSlide {
+  0%   { transform: scaleX(0); transform-origin: left; }
+  50%  { transform: scaleX(1); transform-origin: left; }
+  51%  { transform: scaleX(1); transform-origin: right; }
+  100% { transform: scaleX(0); transform-origin: right; }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $space-lg;
+  transition: opacity $transition-fast;
+
+  &.gridNarrow {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @include lg {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @include md {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include sm-down {
+    grid-template-columns: repeat(2, 1fr);
+    gap: $space-md;
+  }
+
+  @include xs {
+    grid-template-columns: 1fr;
+  }
+}
+
+.empty {
+  @include flex-center;
+  flex-direction: column;
+  gap: $space-md;
+  padding: $space-3xl $space-lg;
+  text-align: center;
+  color: $grey;
+  font-size: 1.05rem;
+
+  span { font-size: 3rem; }
+}
+
+.clearBtn {
+  @include btn-secondary;
+  margin-top: $space-sm;
+}

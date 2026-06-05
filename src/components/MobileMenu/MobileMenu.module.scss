@@ -1,0 +1,122 @@
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba($charcoal, 0.55);
+  z-index: $z-overlay;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity $transition-mid;
+
+  &.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: min(320px, 85vw);
+  background: $green;
+  color: $white;
+  z-index: $z-drawer;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(-100%);
+  transition: transform $transition-mid;
+  overflow-y: auto;
+
+  &.open {
+    transform: translateX(0);
+  }
+}
+
+.header {
+  @include flex-between;
+  padding: $space-lg;
+  border-bottom: 1px solid rgba($white, 0.15);
+}
+
+.title {
+  font-family: $font-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: $gold;
+}
+
+.close {
+  @include flex-center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  color: $white;
+  transition: background $transition-fast;
+
+  &:hover {
+    background: rgba($white, 0.15);
+  }
+}
+
+.nav {
+  flex: 1;
+  padding: $space-lg;
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+}
+
+.sectionLabel {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba($white, 0.5);
+  padding: $space-sm $space-md;
+  margin-top: $space-sm;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+  padding: 12px $space-md;
+  border-radius: $border-radius;
+  font-size: 1rem;
+  font-weight: 600;
+  color: rgba($white, 0.85);
+  transition: background $transition-fast, color $transition-fast;
+
+  &:hover {
+    background: rgba($white, 0.12);
+    color: $white;
+  }
+
+  &.active {
+    background: rgba($gold, 0.15);
+    color: $gold;
+  }
+}
+
+.linkIcon {
+  font-size: 1.1rem;
+  width: 24px;
+}
+
+.divider {
+  height: 1px;
+  background: rgba($white, 0.12);
+  margin-block: $space-sm;
+}
+
+.footer {
+  padding: $space-lg;
+  border-top: 1px solid rgba($white, 0.15);
+  font-size: 0.85rem;
+  color: rgba($white, 0.6);
+  text-align: center;
+}

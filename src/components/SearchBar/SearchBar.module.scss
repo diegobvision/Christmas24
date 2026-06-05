@@ -1,0 +1,84 @@
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba($charcoal, 0.7);
+  z-index: $z-modal;
+  @include flex-center;
+  align-items: flex-start;
+  padding-top: 80px;
+  animation: fadeIn 0.2s ease;
+}
+
+.modal {
+  width: min(680px, 92vw);
+  background: $white;
+  border-radius: $border-radius-lg;
+  box-shadow: $shadow-xl;
+  overflow: hidden;
+  animation: slideDown 0.2s ease;
+}
+
+.form {
+  display: flex;
+  align-items: center;
+  padding: $space-md $space-lg;
+  gap: $space-md;
+  border-bottom: 1px solid $grey-light;
+}
+
+.icon {
+  color: $grey;
+  flex-shrink: 0;
+}
+
+.input {
+  flex: 1;
+  font-family: $font-sans;
+  font-size: 1.15rem;
+  color: $charcoal;
+  border: none;
+  outline: none;
+  background: transparent;
+
+  &::placeholder {
+    color: $grey;
+  }
+
+  &::-webkit-search-cancel-button {
+    display: none;
+  }
+}
+
+.close {
+  @include flex-center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  color: $grey;
+  flex-shrink: 0;
+  transition: background $transition-fast, color $transition-fast;
+
+  &:hover {
+    background: $grey-light;
+    color: $charcoal;
+  }
+}
+
+.hint {
+  padding: $space-sm $space-lg;
+  font-size: 0.78rem;
+  color: $grey;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-16px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}

@@ -1,0 +1,141 @@
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: $z-nav;
+  height: $nav-height;
+  background: $green;
+  color: $white;
+  transition: box-shadow $transition-mid, background $transition-mid;
+}
+
+.scrolled {
+  box-shadow: $shadow-lg;
+  background: darken(#165B33, 4%);
+}
+
+.inner {
+  @include container;
+  @include flex-between;
+  height: 100%;
+}
+
+// ── Logo ────────────────────────────────────────────────────────────────────
+.logo {
+  @include flex-center;
+  gap: $space-sm;
+  text-decoration: none;
+  color: $white;
+
+  &:hover .logoText {
+    color: $gold-light;
+  }
+}
+
+.logoIcon {
+  font-size: 1.5rem;
+  animation: spin 12s linear infinite;
+  display: inline-block;
+}
+
+.logoText {
+  font-family: $font-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  transition: color $transition-fast;
+
+  em {
+    font-style: italic;
+    color: $gold;
+    font-size: 1.2rem;
+  }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+// ── Desktop nav ─────────────────────────────────────────────────────────────
+.desktopNav {
+  display: flex;
+  align-items: center;
+  gap: $space-xs;
+
+  @include md-down {
+    display: none;
+  }
+}
+
+.navLink {
+  padding: 8px $space-md;
+  border-radius: $border-radius;
+  font-family: $font-sans;
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba($white, 0.85);
+  transition: color $transition-fast, background $transition-fast;
+
+  &:hover {
+    color: $white;
+    background: rgba($white, 0.12);
+  }
+
+  &.active {
+    color: $gold;
+    background: rgba($gold, 0.12);
+  }
+}
+
+// ── Actions ─────────────────────────────────────────────────────────────────
+.actions {
+  @include flex-center;
+  gap: $space-sm;
+}
+
+.iconBtn {
+  @include flex-center;
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: $white;
+  transition: background $transition-fast, color $transition-fast;
+
+  @include focus-ring;
+
+  &:hover {
+    background: rgba($white, 0.15);
+    color: $gold-light;
+  }
+}
+
+.badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  background: $red;
+  color: $white;
+  border-radius: 9px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  @include flex-center;
+  border: 2px solid $green;
+}
+
+// ── Hamburger ───────────────────────────────────────────────────────────────
+.hamburger {
+  @include lg-up {
+    display: none;
+  }
+}

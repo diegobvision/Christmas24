@@ -1,0 +1,192 @@
+@use 'variables' as *;
+
+// ── Breakpoints ────────────────────────────────────────────────────────────
+// xs: < 480px   (small phones)
+// sm: 480–767px (large phones)
+// md: 768–1023px (tablets)
+// lg: 1024–1279px (small desktops)
+// xl: ≥ 1280px  (large desktops)
+
+@mixin xs {
+  @media (max-width: 479px) { @content; }
+}
+@mixin sm {
+  @media (min-width: 480px) and (max-width: 767px) { @content; }
+}
+@mixin sm-down {
+  @media (max-width: 767px) { @content; }
+}
+@mixin md {
+  @media (min-width: 768px) and (max-width: 1023px) { @content; }
+}
+@mixin md-down {
+  @media (max-width: 1023px) { @content; }
+}
+@mixin md-up {
+  @media (min-width: 768px) { @content; }
+}
+@mixin lg {
+  @media (min-width: 1024px) and (max-width: 1279px) { @content; }
+}
+@mixin lg-up {
+  @media (min-width: 1024px) { @content; }
+}
+@mixin xl {
+  @media (min-width: 1280px) { @content; }
+}
+
+// ── Layout ─────────────────────────────────────────────────────────────────
+@mixin container {
+  width: 100%;
+  max-width: $max-width;
+  margin-inline: auto;
+  padding-inline: $space-lg;
+
+  @include sm-down {
+    padding-inline: $space-md;
+  }
+}
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+// ── Typography ─────────────────────────────────────────────────────────────
+@mixin heading-xl {
+  font-family: $font-serif;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+@mixin heading-lg {
+  font-family: $font-serif;
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+@mixin heading-md {
+  font-family: $font-serif;
+  font-size: clamp(1.2rem, 2vw, 1.75rem);
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+@mixin body-text {
+  font-family: $font-sans;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: $charcoal-mid;
+}
+
+// ── Buttons ────────────────────────────────────────────────────────────────
+@mixin btn-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-sm;
+  padding: 12px $space-xl;
+  border: 2px solid transparent;
+  border-radius: $border-radius;
+  font-family: $font-sans;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all $transition-fast;
+  text-decoration: none;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+@mixin btn-primary {
+  @include btn-base;
+  background: $red;
+  color: $white;
+  border-color: $red;
+
+  &:hover:not(:disabled) {
+    background: $red-dark;
+    border-color: $red-dark;
+    transform: translateY(-1px);
+    box-shadow: $shadow-md;
+  }
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+}
+
+@mixin btn-secondary {
+  @include btn-base;
+  background: transparent;
+  color: $green;
+  border-color: $green;
+
+  &:hover:not(:disabled) {
+    background: $green;
+    color: $white;
+    transform: translateY(-1px);
+  }
+}
+
+@mixin btn-gold {
+  @include btn-base;
+  background: $gold;
+  color: $charcoal;
+  border-color: $gold;
+
+  &:hover:not(:disabled) {
+    background: $gold-light;
+    border-color: $gold-light;
+    transform: translateY(-1px);
+    box-shadow: $shadow-md;
+  }
+}
+
+// ── Cards ──────────────────────────────────────────────────────────────────
+@mixin card {
+  background: $white;
+  border-radius: $border-radius-lg;
+  box-shadow: $shadow-sm;
+  transition: box-shadow $transition-mid, transform $transition-mid;
+
+  &:hover {
+    box-shadow: $shadow-lg;
+    transform: translateY(-2px);
+  }
+}
+
+// ── Focus ──────────────────────────────────────────────────────────────────
+@mixin focus-ring {
+  &:focus-visible {
+    outline: 3px solid $gold;
+    outline-offset: 3px;
+  }
+}
+
+// ── Decorative ─────────────────────────────────────────────────────────────
+@mixin gold-divider {
+  border: none;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, $gold, transparent);
+  margin-block: $space-xl;
+}
+
+@mixin snowflake-bg {
+  background-image: radial-gradient(circle, rgba($gold, 0.06) 1px, transparent 1px);
+  background-size: 32px 32px;
+}

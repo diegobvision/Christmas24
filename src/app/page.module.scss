@@ -1,0 +1,72 @@
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
+
+.featured {
+  padding-block: $space-2xl $space-3xl;
+  background: $cream;
+}
+
+.container {
+  @include container;
+}
+
+.divider {
+  @include gold-divider;
+
+  &:last-child {
+    display: none;
+  }
+}
+
+.noCollections {
+  text-align: center;
+  padding: $space-3xl $space-lg;
+  color: $grey;
+
+  code {
+    background: $grey-bg;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    color: $green;
+  }
+}
+
+// ── Skeleton ────────────────────────────────────────────────────────────────
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+$shimmer: linear-gradient(90deg, $grey-bg 25%, $grey-light 50%, $grey-bg 75%);
+
+.skeletonSection {
+  padding-block: $space-2xl;
+}
+
+.skeletonTitle {
+  height: 36px;
+  width: 240px;
+  border-radius: $border-radius;
+  background: $shimmer;
+  background-size: 800px 100%;
+  animation: shimmer 1.4s infinite linear;
+  margin-bottom: $space-xl;
+}
+
+.skeletonGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: $space-lg;
+
+  @include md-down { grid-template-columns: repeat(2, 1fr); }
+  @include xs      { grid-template-columns: 1fr; }
+}
+
+.skeletonCard {
+  aspect-ratio: 1 / 1.2;
+  border-radius: $border-radius-lg;
+  background: $shimmer;
+  background-size: 800px 100%;
+  animation: shimmer 1.4s infinite linear;
+}

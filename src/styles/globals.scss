@@ -1,0 +1,106 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+// ── Google Fonts ───────────────────────────────────────────────────────────
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap');
+
+// ── Reset ──────────────────────────────────────────────────────────────────
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: $font-sans;
+  font-size: 16px;
+  color: $charcoal;
+  background-color: $cream;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img, video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+// ── Main layout ────────────────────────────────────────────────────────────
+main {
+  padding-top: $nav-height;
+  min-height: calc(100vh - $nav-height);
+}
+
+// ── Typography helpers ─────────────────────────────────────────────────────
+.h1 { @include heading-xl; }
+.h2 { @include heading-lg; }
+.h3 { @include heading-md; }
+
+// ── Utility: visually hidden ───────────────────────────────────────────────
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+// ── Gold divider ───────────────────────────────────────────────────────────
+.gold-divider {
+  @include gold-divider;
+}
+
+// ── Section container ──────────────────────────────────────────────────────
+.container {
+  @include container;
+}
+
+// ── Scrollbar ─────────────────────────────────────────────────────────────
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: $grey-bg;
+}
+::-webkit-scrollbar-thumb {
+  background: $green-mid;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: $green;
+}
+
+// ── Selection ─────────────────────────────────────────────────────────────
+::selection {
+  background: rgba($red, 0.2);
+  color: $charcoal;
+}

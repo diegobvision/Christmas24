@@ -1,0 +1,260 @@
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
+
+.page {
+  padding-block: $space-2xl $space-3xl;
+  background: $cream;
+  min-height: 100vh;
+}
+
+.container {
+  @include container;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $space-2xl;
+  align-items: start;
+
+  @include md-down {
+    grid-template-columns: 1fr;
+    gap: $space-xl;
+  }
+}
+
+// ── Gallery ───────────────────────────────────────────────────────────────────
+.gallery {
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+  position: sticky;
+  top: calc($nav-height + $space-lg);
+
+  @include md-down {
+    position: static;
+  }
+}
+
+.mainImage {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  border-radius: $border-radius-lg;
+  overflow: hidden;
+  background: $grey-bg;
+}
+
+.mainImg {
+  object-fit: cover;
+  transition: transform $transition-slow;
+
+  &:hover {
+    transform: scale(1.03);
+  }
+}
+
+.noImage {
+  @include flex-center;
+  width: 100%;
+  height: 100%;
+  font-size: 4rem;
+  background: linear-gradient(135deg, $grey-bg, $grey-light);
+}
+
+.saleBadge {
+  position: absolute;
+  top: $space-md;
+  left: $space-md;
+  background: $red;
+  color: $white;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 3px;
+}
+
+.thumbnails {
+  display: flex;
+  gap: $space-sm;
+  flex-wrap: wrap;
+}
+
+.thumb {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  border-radius: $border-radius;
+  overflow: hidden;
+  background: $grey-bg;
+  border: 2px solid transparent;
+  transition: border-color $transition-fast;
+  cursor: pointer;
+  flex-shrink: 0;
+
+  &:hover { border-color: $green-mid; }
+}
+
+.thumbActive {
+  border-color: $green !important;
+}
+
+.thumbImg {
+  object-fit: cover;
+}
+
+// ── Product info ──────────────────────────────────────────────────────────────
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: $space-lg;
+}
+
+.breadcrumb {
+  display: flex;
+  gap: $space-sm;
+  flex-wrap: wrap;
+}
+
+.tag {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: $green;
+  background: rgba($green, 0.1);
+  padding: 3px 10px;
+  border-radius: 3px;
+}
+
+.title {
+  @include heading-lg;
+  color: $charcoal;
+}
+
+.pricing {
+  display: flex;
+  align-items: baseline;
+  gap: $space-md;
+  flex-wrap: wrap;
+}
+
+.price {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: $green;
+  font-family: $font-sans;
+}
+
+.compareAt {
+  font-size: 1.1rem;
+  color: $grey;
+  text-decoration: line-through;
+}
+
+.saveBadge {
+  background: $red;
+  color: $white;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 3px;
+}
+
+// ── Options ───────────────────────────────────────────────────────────────────
+.optionGroup {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+}
+
+.optionLabel {
+  font-size: 0.9rem;
+  color: $charcoal-mid;
+}
+
+.optionValues {
+  display: flex;
+  gap: $space-sm;
+  flex-wrap: wrap;
+}
+
+.optionBtn {
+  padding: 8px 16px;
+  border: 2px solid $grey-light;
+  border-radius: $border-radius;
+  font-size: 0.875rem;
+  font-family: $font-sans;
+  font-weight: 600;
+  color: $charcoal;
+  background: $white;
+  cursor: pointer;
+  transition: all $transition-fast;
+
+  &:hover:not(:disabled):not(.optionSelected) {
+    border-color: $green-mid;
+    color: $green;
+  }
+}
+
+.optionSelected {
+  border-color: $green !important;
+  background: $green;
+  color: $white;
+}
+
+.optionUnavailable {
+  opacity: 0.4;
+  cursor: not-allowed;
+  text-decoration: line-through;
+}
+
+// ── Add to cart ────────────────────────────────────────────────────────────────
+.addToCart {
+  margin-top: $space-sm;
+}
+
+.addBtn {
+  @include btn-primary;
+  width: 100%;
+  font-size: 1rem;
+  padding: 16px;
+  justify-content: center;
+}
+
+.addedBtn {
+  background: $green !important;
+  border-color: $green !important;
+}
+
+// ── Description ────────────────────────────────────────────────────────────────
+.description {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: $charcoal-mid;
+  border-top: 1px solid $grey-light;
+  padding-top: $space-lg;
+
+  p { margin-bottom: $space-md; }
+  ul, ol { padding-left: $space-lg; margin-bottom: $space-md; }
+  li { margin-bottom: $space-xs; }
+  strong { color: $charcoal; }
+  a { color: $green; text-decoration: underline; }
+}
+
+// ── Perks ──────────────────────────────────────────────────────────────────────
+.perks {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+  border-top: 1px solid $grey-light;
+  padding-top: $space-lg;
+}
+
+.perk {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+  font-size: 0.875rem;
+  color: $charcoal-mid;
+
+  span:first-child { font-size: 1.1rem; }
+}

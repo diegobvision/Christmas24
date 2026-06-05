@@ -1,0 +1,114 @@
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
+
+.footer {
+  background: $green;
+  color: $white;
+  margin-top: auto;
+}
+
+.inner {
+  @include container;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: $space-2xl;
+  padding-block: $space-2xl;
+
+  @include md-down {
+    grid-template-columns: 1fr;
+    gap: $space-xl;
+  }
+}
+
+.brand {
+  max-width: 280px;
+}
+
+.logo {
+  font-family: $font-serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+
+  em {
+    font-style: italic;
+    color: $gold;
+    font-size: 1.3rem;
+  }
+}
+
+.tagline {
+  margin-top: $space-sm;
+  font-size: 0.9rem;
+  color: rgba($white, 0.65);
+  line-height: 1.5;
+}
+
+.links {
+  display: flex;
+  gap: $space-2xl;
+
+  @include sm-down {
+    gap: $space-xl;
+  }
+}
+
+.linkGroup {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+
+  h4 {
+    font-family: $font-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: $gold;
+    margin-bottom: $space-xs;
+  }
+
+  a {
+    font-size: 0.9rem;
+    color: rgba($white, 0.7);
+    transition: color $transition-fast;
+
+    &:hover {
+      color: $white;
+    }
+  }
+}
+
+.bottom {
+  @include container;
+  @include flex-between;
+  padding-block: $space-lg;
+  border-top: 1px solid rgba($white, 0.15);
+  font-size: 0.8rem;
+  color: rgba($white, 0.5);
+
+  @include sm-down {
+    flex-direction: column;
+    gap: $space-sm;
+    text-align: center;
+  }
+}
+
+.snowflakes {
+  display: flex;
+  gap: $space-sm;
+
+  span {
+    display: inline-block;
+    animation: float 3s ease-in-out infinite alternate;
+    color: rgba($white, 0.3);
+    font-size: 1rem;
+  }
+}
+
+@keyframes float {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-4px); }
+}

@@ -1,0 +1,264 @@
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba($charcoal, 0.55);
+  z-index: $z-overlay;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity $transition-mid;
+
+  &.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(420px, 100vw);
+  background: $white;
+  z-index: $z-drawer;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform $transition-mid;
+  box-shadow: $shadow-xl;
+
+  &.open {
+    transform: translateX(0);
+  }
+}
+
+.header {
+  @include flex-between;
+  padding: $space-lg;
+  border-bottom: 1px solid $grey-light;
+  background: $cream;
+}
+
+.title {
+  font-family: $font-serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: $green;
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+}
+
+.count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: $red;
+  color: $white;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  font-weight: 700;
+  font-family: $font-sans;
+}
+
+.close {
+  @include flex-center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  color: $grey;
+  transition: background $transition-fast, color $transition-fast;
+
+  &:hover {
+    background: $grey-light;
+    color: $charcoal;
+  }
+}
+
+.body {
+  flex: 1;
+  overflow-y: auto;
+  transition: opacity $transition-fast;
+
+  &.loading {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}
+
+.empty {
+  @include flex-center;
+  flex-direction: column;
+  gap: $space-md;
+  height: 100%;
+  padding: $space-xl;
+  text-align: center;
+  color: $grey;
+  font-size: 1rem;
+}
+
+.emptyIcon {
+  font-size: 3.5rem;
+}
+
+.shopBtn {
+  @include btn-secondary;
+  margin-top: $space-sm;
+}
+
+.lineList {
+  padding: $space-md;
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+}
+
+.lineItem {
+  display: grid;
+  grid-template-columns: 80px 1fr 24px;
+  gap: $space-md;
+  align-items: start;
+  padding: $space-md;
+  border: 1px solid $grey-light;
+  border-radius: $border-radius-lg;
+}
+
+.lineImage {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  border-radius: $border-radius;
+  overflow: hidden;
+  background: $grey-bg;
+  @include flex-center;
+  font-size: 2rem;
+}
+
+.productImage {
+  object-fit: cover;
+}
+
+.lineInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.productTitle {
+  font-family: $font-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: $charcoal;
+  line-height: 1.3;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $green;
+  }
+}
+
+.variantTitle {
+  font-size: 0.78rem;
+  color: $grey;
+}
+
+.lineFooter {
+  @include flex-between;
+  margin-top: $space-xs;
+}
+
+.qtyControl {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  border: 1px solid $grey-light;
+  border-radius: $border-radius;
+  overflow: hidden;
+
+  button {
+    width: 28px;
+    height: 28px;
+    @include flex-center;
+    font-size: 1rem;
+    color: $charcoal;
+    transition: background $transition-fast;
+    border: none;
+    cursor: pointer;
+
+    &:hover:not(:disabled) {
+      background: $grey-light;
+    }
+
+    &:disabled {
+      color: $grey-light;
+      cursor: not-allowed;
+    }
+  }
+
+  span {
+    width: 28px;
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 700;
+  }
+}
+
+.linePrice {
+  font-weight: 700;
+  color: $green;
+  font-size: 0.95rem;
+}
+
+.removeBtn {
+  @include flex-center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  color: $grey;
+  transition: background $transition-fast, color $transition-fast;
+  align-self: flex-start;
+  margin-top: 2px;
+
+  &:hover {
+    background: $grey-light;
+    color: $red;
+  }
+}
+
+.footer {
+  padding: $space-lg;
+  border-top: 1px solid $grey-light;
+  background: $cream;
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+}
+
+.subtotal {
+  @include flex-between;
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.subtotalAmount {
+  color: $green;
+}
+
+.taxNote {
+  font-size: 0.78rem;
+  color: $grey;
+  text-align: center;
+}
+
+.checkoutBtn {
+  @include btn-primary;
+  width: 100%;
+  margin-top: $space-sm;
+  justify-content: center;
+  font-size: 0.95rem;
+}

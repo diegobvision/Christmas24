@@ -1,0 +1,75 @@
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
+
+.page {
+  padding-block: $space-2xl $space-3xl;
+  min-height: 100vh;
+  background: $cream;
+}
+
+.container {
+  @include container;
+}
+
+.header {
+  margin-bottom: $space-xl;
+  border-bottom: 2px solid $grey-light;
+  padding-bottom: $space-lg;
+}
+
+.title {
+  @include heading-lg;
+  color: $green;
+
+  em {
+    font-style: italic;
+    color: $charcoal;
+  }
+}
+
+.count {
+  margin-top: $space-sm;
+  font-size: 0.9rem;
+  color: $grey;
+}
+
+.prompt,
+.noResults {
+  @include flex-center;
+  flex-direction: column;
+  gap: $space-md;
+  padding: $space-3xl $space-lg;
+  text-align: center;
+  color: $grey;
+  font-size: 1.05rem;
+
+  span { font-size: 3rem; }
+}
+
+.noResultsSub {
+  font-size: 0.9rem;
+  color: $grey;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: $space-lg;
+
+  @include lg {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @include md {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include sm-down {
+    grid-template-columns: repeat(2, 1fr);
+    gap: $space-md;
+  }
+
+  @include xs {
+    grid-template-columns: 1fr;
+  }
+}

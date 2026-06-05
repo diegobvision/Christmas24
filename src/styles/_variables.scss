@@ -1,0 +1,53 @@
+// ── Christmas colour palette ───────────────────────────────────────────────
+$red:         #C41E3A;
+$red-dark:    #9B1530;
+$red-light:   #E8304F;
+$green:       #165B33;
+$green-mid:   #1E7A45;
+$green-light: #2EAD60;
+$gold:        #D4AF37;
+$gold-light:  #F0D060;
+$cream:       #FAFAF0;
+$white:       #FFFFFF;
+$charcoal:    #1A1A1A;
+$charcoal-mid:#3D3D3D;
+$grey:        #767676;
+$grey-light:  #E8E8E0;
+$grey-bg:     #F4F4EE;
+
+// ── Typography ─────────────────────────────────────────────────────────────
+$font-serif:  'Playfair Display', Georgia, 'Times New Roman', serif;
+$font-sans:   'Lato', 'Helvetica Neue', Arial, sans-serif;
+
+// ── Spacing scale ──────────────────────────────────────────────────────────
+$space-xs:   4px;
+$space-sm:   8px;
+$space-md:   16px;
+$space-lg:   24px;
+$space-xl:   40px;
+$space-2xl:  64px;
+$space-3xl:  96px;
+
+// ── Layout ─────────────────────────────────────────────────────────────────
+$max-width:      1280px;
+$nav-height:     72px;
+$border-radius:  6px;
+$border-radius-lg: 12px;
+
+// ── Transitions ────────────────────────────────────────────────────────────
+$transition-fast:   0.15s ease;
+$transition-mid:    0.25s ease;
+$transition-slow:   0.4s ease;
+
+// ── Shadows ────────────────────────────────────────────────────────────────
+$shadow-sm:  0 1px 3px rgba(0,0,0,0.12);
+$shadow-md:  0 4px 12px rgba(0,0,0,0.12);
+$shadow-lg:  0 8px 32px rgba(0,0,0,0.16);
+$shadow-xl:  0 16px 48px rgba(0,0,0,0.20);
+
+// ── Z-index ────────────────────────────────────────────────────────────────
+$z-nav:      100;
+$z-drawer:   200;
+$z-overlay:  190;
+$z-modal:    300;
+$z-toast:    400;

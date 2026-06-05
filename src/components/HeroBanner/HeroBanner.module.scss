@@ -1,0 +1,141 @@
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
+
+.hero {
+  position: relative;
+  min-height: calc(100vh - $nav-height);
+  background: linear-gradient(
+    145deg,
+    $green 0%,
+    darken(#165B33, 5%) 40%,
+    #0D3D22 100%
+  );
+  @include flex-center;
+  overflow: hidden;
+  padding: $space-2xl $space-lg;
+
+  // Subtle dot pattern
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba($gold, 0.07) 1px, transparent 1px);
+    background-size: 36px 36px;
+    pointer-events: none;
+  }
+}
+
+.decorations {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.snowflake {
+  position: absolute;
+  top: -10%;
+  color: rgba($white, 0.2);
+  animation: snowfall linear infinite;
+}
+
+@keyframes snowfall {
+  0%   { transform: translateY(0) rotate(0deg);    opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  max-width: 720px;
+  color: $white;
+}
+
+.eyebrow {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: $gold;
+  margin-bottom: $space-lg;
+}
+
+.headline {
+  @include heading-xl;
+  color: $white;
+  margin-bottom: $space-lg;
+  line-height: 1.05;
+
+  em {
+    font-style: italic;
+    color: $gold;
+    display: block;
+  }
+}
+
+.subtext {
+  font-size: clamp(1rem, 1.5vw, 1.15rem);
+  color: rgba($white, 0.8);
+  line-height: 1.7;
+  max-width: 520px;
+  margin-inline: auto;
+  margin-bottom: $space-xl;
+}
+
+.ctas {
+  display: flex;
+  gap: $space-md;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.ctaPrimary {
+  @include btn-gold;
+  font-size: 0.9rem;
+}
+
+.ctaSecondary {
+  @include btn-base;
+  background: transparent;
+  color: $white;
+  border-color: rgba($white, 0.5);
+  font-size: 0.9rem;
+
+  &:hover {
+    border-color: $white;
+    background: rgba($white, 0.1);
+  }
+}
+
+// ── Decorative ornaments ──────────────────────────────────────────────────
+.ornaments {
+  position: absolute;
+  bottom: -40px;
+  right: 8%;
+  display: flex;
+  gap: $space-sm;
+  pointer-events: none;
+
+  @include sm-down {
+    display: none;
+  }
+}
+
+.ornament {
+  font-size: 5rem;
+  line-height: 1;
+  animation: swing 4s ease-in-out infinite alternate;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+}
+
+.ornamentRed  { color: $red; animation-delay: 0s; }
+.ornamentGold { color: $gold; animation-delay: 0.5s; font-size: 3.5rem; }
+.ornamentGreen { color: $green-light; animation-delay: 1s; font-size: 4.5rem; }
+
+@keyframes swing {
+  from { transform: rotate(-8deg) translateY(0); }
+  to   { transform: rotate(8deg) translateY(-8px); }
+}

@@ -1,0 +1,66 @@
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
+
+.section {
+  padding-block: $space-2xl;
+}
+
+.header {
+  @include flex-between;
+  margin-bottom: $space-xl;
+  gap: $space-md;
+  flex-wrap: wrap;
+}
+
+.title {
+  @include heading-lg;
+  color: $green;
+}
+
+.description {
+  margin-top: $space-sm;
+  color: $grey;
+  font-size: 0.95rem;
+  max-width: 480px;
+}
+
+.viewAll {
+  font-family: $font-sans;
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: $red;
+  border-bottom: 2px solid $red;
+  padding-bottom: 2px;
+  white-space: nowrap;
+  transition: color $transition-fast, border-color $transition-fast;
+
+  &:hover {
+    color: $red-dark;
+    border-color: $red-dark;
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: $space-lg;
+
+  @include lg {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @include md {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include sm-down {
+    grid-template-columns: repeat(2, 1fr);
+    gap: $space-md;
+  }
+
+  @include xs {
+    grid-template-columns: 1fr;
+  }
+}
