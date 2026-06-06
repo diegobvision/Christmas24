@@ -11,7 +11,11 @@
       "Bash(sips -z 512 512 /tmp/logo_square_crop.png --out /Users/diegopaganelli/Christmas24/public/icon.png)",
       "Bash(sips -g pixelWidth -g pixelHeight /Users/diegopaganelli/Christmas24/public/icon.png)",
       "Bash(npm run *)",
-      "Bash(nvm use *)"
+      "Bash(nvm use *)",
+      "WebSearch",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)"
     ]
   }
 }

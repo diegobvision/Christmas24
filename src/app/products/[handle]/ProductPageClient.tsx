@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import Image from "next/image";
 import { useCart } from "@/context/CartContext";
+import { toGTMProduct, viewItem } from "@/lib/gtm";
 import { Product, ProductVariant, formatMoney } from "@/lib/shopify";
-import { viewItem, toGTMProduct } from "@/lib/gtm";
+import Image from "next/image";
+import { useEffect, useState } from "react";
 import styles from "./ProductPage.module.scss";
 
 interface Props {
@@ -14,28 +14,26 @@ interface Props {
 export default function ProductPageClient({ product }: Props) {
   const { addItem, isLoading } = useCart();
   const [selectedImage, setSelectedImage] = useState(0);
-  const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>(
-    () =>
-      Object.fromEntries(
-        product.options.map((o) => [o.name, o.values[0]])
-      )
+  const [selectedOptions, setSelectedOptions] = useState<
+    Record<string, string>
+  >(() =>
+    Object.fromEntries(product.options.map((o) => [o.name, o.values[0]])),
   );
   const [added, setAdded] = useState(false);
 
   const images = product.images.nodes;
   const currentImage = images[selectedImage] ?? product.featuredImage;
 
-  const matchingVariant: ProductVariant | undefined = product.variants.nodes.find(
-    (v) =>
-      v.selectedOptions.every(
-        (opt) => selectedOptions[opt.name] === opt.value
-      )
-  );
+  const matchingVariant: ProductVariant | undefined =
+    product.variants.nodes.find((v) =>
+      v.selectedOptions.every((opt) => selectedOptions[opt.name] === opt.value),
+    );
 
   const canAddToCart = matchingVariant?.availableForSale ?? false;
   const price = matchingVariant?.price ?? product.priceRange.minVariantPrice;
   const compareAt = matchingVariant?.compareAtPrice;
-  const isOnSale = compareAt && parseFloat(compareAt.amount) > parseFloat(price.amount);
+  const isOnSale =
+    compareAt && parseFloat(compareAt.amount) > parseFloat(price.amount);
 
   // GTM: view_item on mount
   useEffect(() => {
@@ -115,7 +113,9 @@ export default function ProductPageClient({ product }: Props) {
         <div className={styles.info}>
           <div className={styles.breadcrumb}>
             {product.tags.slice(0, 2).map((tag) => (
-              <span key={tag} className={styles.tag}>{tag}</span>
+              <span key={tag} className={styles.tag}>
+                {tag}
+              </span>
             ))}
           </div>
 
@@ -125,57 +125,69 @@ export default function ProductPageClient({ product }: Props) {
             <span className={styles.price}>{formatMoney(price)}</span>
             {isOnSale && compareAt && (
               <>
-                <span className={styles.compareAt}>{formatMoney(compareAt)}</span>
+                <span className={styles.compareAt}>
+                  {formatMoney(compareAt)}
+                </span>
                 <span className={styles.saveBadge}>
                   Save{" "}
                   {Math.round(
-                    (1 - parseFloat(price.amount) / parseFloat(compareAt.amount)) * 100
-                  )}%
+                    (1 -
+                      parseFloat(price.amount) / parseFloat(compareAt.amount)) *
+                      100,
+                  )}
+                  %
                 </span>
               </>
             )}
           </div>
 
           {/* Options */}
-          {hasOptions && product.options.map((option) => (
-            option.values.length > 1 && (
-              <div key={option.name} className={styles.optionGroup}>
-                <p className={styles.optionLabel}>
-                  {option.name}:{" "}
-                  <strong>{selectedOptions[option.name]}</strong>
-                </p>
-                <div className={styles.optionValues}>
-                  {option.values.map((val) => {
-                    const testVariant = product.variants.nodes.find((v) =>
-                      v.selectedOptions.every(
-                        (o) =>
-                          o.name === option.name
-                            ? o.value === val
-                            : selectedOptions[o.name] === o.value
-                      )
-                    );
-                    const available = testVariant?.availableForSale ?? false;
+          {hasOptions &&
+            product.options.map(
+              (option) =>
+                option.values.length > 1 && (
+                  <div key={option.name} className={styles.optionGroup}>
+                    <p className={styles.optionLabel}>
+                      {option.name}:{" "}
+                      <strong>{selectedOptions[option.name]}</strong>
+                    </p>
+                    <div className={styles.optionValues}>
+                      {option.values.map((val) => {
+                        const testVariant = product.variants.nodes.find((v) =>
+                          v.selectedOptions.every((o) =>
+                            o.name === option.name
+                              ? o.value === val
+                              : selectedOptions[o.name] === o.value,
+                          ),
+                        );
+                        const available =
+                          testVariant?.availableForSale ?? false;
 
-                    return (
-                      <button
-                        key={val}
-                        className={`${styles.optionBtn} ${
-                          selectedOptions[option.name] === val ? styles.optionSelected : ""
-                        } ${!available ? styles.optionUnavailable : ""}`}
-                        onClick={() =>
-                          setSelectedOptions((prev) => ({ ...prev, [option.name]: val }))
-                        }
-                        disabled={!available}
-                        title={!available ? "Out of stock" : val}
-                      >
-                        {val}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            )
-          ))}
+                        return (
+                          <button
+                            key={val}
+                            className={`${styles.optionBtn} ${
+                              selectedOptions[option.name] === val
+                                ? styles.optionSelected
+                                : ""
+                            } ${!available ? styles.optionUnavailable : ""}`}
+                            onClick={() =>
+                              setSelectedOptions((prev) => ({
+                                ...prev,
+                                [option.name]: val,
+                              }))
+                            }
+                            disabled={!available}
+                            title={!available ? "Out of stock" : val}
+                          >
+                            {val}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ),
+            )}
 
           {/* Add to cart */}
           <div className={styles.addToCart}>
@@ -189,12 +201,12 @@ export default function ProductPageClient({ product }: Props) {
               {!product.availableForSale
                 ? "Sold Out"
                 : !canAddToCart
-                ? "Unavailable"
-                : isLoading
-                ? "Adding…"
-                : added
-                ? "✓ Added to Cart!"
-                : "Add to Cart"}
+                  ? "Unavailable"
+                  : isLoading
+                    ? "Adding…"
+                    : added
+                      ? "✓ Added to Cart!"
+                      : "Add to Cart"}
             </button>
           </div>
 
@@ -206,7 +218,7 @@ export default function ProductPageClient({ product }: Props) {
             />
           )}
 
-          {/* Perks */}
+          {/* Perks
           <div className={styles.perks}>
             {[
               { icon: "🚚", text: "Free UK delivery over £50" },
@@ -218,7 +230,7 @@ export default function ProductPageClient({ product }: Props) {
                 <span>{text}</span>
               </div>
             ))}
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
