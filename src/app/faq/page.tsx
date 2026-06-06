@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 };
 
 export default async function FAQPage() {
-  const metaobjects = await getMetaobjects("faq_item");
+  const metaobjects = await getMetaobjects("faq_item").catch(() => []);
 
   const faqs = metaobjects.map((obj) => ({
     id: obj.id,

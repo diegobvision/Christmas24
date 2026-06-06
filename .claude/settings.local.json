@@ -9,7 +9,9 @@
       "Bash(sips -s format png --cropToHeightWidth 512 512 --padColor FFFFFF /Users/diegopaganelli/Downloads/ChristmasShop24_HOR.png --out /Users/diegopaganelli/Christmas24/public/icon.png)",
       "Bash(sips --cropOffset 0 0 --cropToHeightWidth 887 887 /Users/diegopaganelli/Downloads/ChristmasShop24_HOR.png --out /tmp/logo_square_crop.png)",
       "Bash(sips -z 512 512 /tmp/logo_square_crop.png --out /Users/diegopaganelli/Christmas24/public/icon.png)",
-      "Bash(sips -g pixelWidth -g pixelHeight /Users/diegopaganelli/Christmas24/public/icon.png)"
+      "Bash(sips -g pixelWidth -g pixelHeight /Users/diegopaganelli/Christmas24/public/icon.png)",
+      "Bash(npm run *)",
+      "Bash(nvm use *)"
     ]
   }
 }

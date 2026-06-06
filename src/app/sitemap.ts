@@ -7,9 +7,9 @@ export const revalidate = 3600; // rebuild sitemap hourly
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [products, collections, pages] = await Promise.all([
-    getAllProductHandles(),
-    getAllCollectionHandles(),
-    getAllPageHandles(),
+    getAllProductHandles().catch(() => []),
+    getAllCollectionHandles().catch(() => []),
+    getAllPageHandles().catch(() => []),
   ]);
 
   const pageRoutes: MetadataRoute.Sitemap = [
