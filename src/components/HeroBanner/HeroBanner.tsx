@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { heroCTAClick } from "@/lib/gtm";
 import styles from "./HeroBanner.module.scss";
 
 export default function HeroBanner() {
@@ -32,10 +35,22 @@ export default function HeroBanner() {
           and festive treasures for everyone on your list.
         </p>
         <div className={styles.ctas}>
-          <Link href="/search" className={styles.ctaPrimary}>
+          <Link
+            href="/search"
+            className={styles.ctaPrimary}
+            onClick={() => heroCTAClick("Shop All Gifts")}
+            data-gtm="hero-cta"
+            data-gtm-label="shop-all-gifts"
+          >
             Shop All Gifts
           </Link>
-          <Link href="#featured" className={styles.ctaSecondary}>
+          <Link
+            href="#featured"
+            className={styles.ctaSecondary}
+            onClick={() => heroCTAClick("Explore Collections")}
+            data-gtm="hero-cta"
+            data-gtm-label="explore-collections"
+          >
             Explore Collections ↓
           </Link>
         </div>

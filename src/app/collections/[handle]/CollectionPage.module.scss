@@ -46,7 +46,7 @@
 
   &.noImage {
     position: relative;
-    background: linear-gradient(135deg, $green, darken(#165B33, 8%));
+    background: linear-gradient(135deg, $green, $green-darker);
   }
 }
 
@@ -230,6 +230,53 @@
     color: $green;
   }
 }
+
+.tagList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 220px;
+  overflow-y: auto;
+  padding-right: 4px;
+
+  &::-webkit-scrollbar { width: 4px; }
+  &::-webkit-scrollbar-track { background: $grey-bg; border-radius: 2px; }
+  &::-webkit-scrollbar-thumb { background: $grey-light; border-radius: 2px; }
+}
+
+.tagBtn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 7px 10px;
+  border: 1px solid $grey-light;
+  border-radius: $border-radius;
+  font-family: $font-sans;
+  font-size: 0.85rem;
+  color: $charcoal;
+  background: $white;
+  cursor: pointer;
+  text-align: left;
+  transition: all $transition-fast;
+
+  &:hover {
+    border-color: $green-mid;
+    color: $green;
+  }
+}
+
+.tagActive {
+  border-color: $green !important;
+  background: $green;
+  color: $white !important;
+
+  .tagCount {
+    background: rgba($white, 0.25);
+    color: $white;
+  }
+}
+
 
 .priceInputs {
   display: flex;

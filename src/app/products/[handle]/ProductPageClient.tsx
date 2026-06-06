@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { useCart } from "@/context/CartContext";
 import { Product, ProductVariant, formatMoney } from "@/lib/shopify";
+import { viewItem, toGTMProduct } from "@/lib/gtm";
 import styles from "./ProductPage.module.scss";
 
 interface Props {
@@ -36,9 +37,31 @@ export default function ProductPageClient({ product }: Props) {
   const compareAt = matchingVariant?.compareAtPrice;
   const isOnSale = compareAt && parseFloat(compareAt.amount) > parseFloat(price.amount);
 
+  // GTM: view_item on mount
+  useEffect(() => {
+    viewItem({
+      item: toGTMProduct({
+        id: product.id,
+        handle: product.handle,
+        title: product.title,
+        price: price.amount,
+        currency: price.currencyCode,
+        variantTitle: matchingVariant?.title,
+      }),
+    });
+    // only fire once on mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const handleAddToCart = async () => {
     if (!matchingVariant || !canAddToCart) return;
-    await addItem(matchingVariant.id);
+    await addItem(matchingVariant.id, 1, {
+      handle: product.handle,
+      title: product.title,
+      price: price.amount,
+      currency: price.currencyCode,
+      variantTitle: matchingVariant.title,
+    });
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
   };
@@ -160,6 +183,8 @@ export default function ProductPageClient({ product }: Props) {
               className={`${styles.addBtn} ${added ? styles.addedBtn : ""}`}
               onClick={handleAddToCart}
               disabled={!canAddToCart || isLoading}
+              data-gtm="add-to-cart"
+              data-gtm-product={product.handle}
             >
               {!product.availableForSale
                 ? "Sold Out"

@@ -19,15 +19,15 @@ export default function Footer() {
         <div className={styles.links}>
           <div className={styles.linkGroup}>
             <h4>Shop</h4>
-            <Link href="/collections/gifts">Gifts</Link>
-            <Link href="/collections/decorations">Decorations</Link>
-            <Link href="/search">Search all</Link>
+            <Link href="/search">All products</Link>
+            <Link href="/search?q=gifts">Gifts</Link>
+            <Link href="/search?q=decorations">Decorations</Link>
           </div>
           <div className={styles.linkGroup}>
             <h4>Info</h4>
-            <Link href="/pages/about">About us</Link>
-            <Link href="/pages/shipping">Shipping & Returns</Link>
-            <Link href="/pages/faq">FAQ</Link>
+            <Link href="/pages/about-us">About us</Link>
+            <Link href="/pages/shipping-and-returns">Shipping & Returns</Link>
+            <Link href="/faq">FAQ</Link>
           </div>
         </div>
       </div>

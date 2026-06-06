@@ -4,7 +4,7 @@
 .page {
   @include flex-center;
   min-height: 100vh;
-  background: linear-gradient(135deg, $green, darken(#165B33, 10%));
+  background: linear-gradient(135deg, $green, $green-darkest);
 }
 
 .content {

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { trackSearch } from "@/lib/gtm";
 import styles from "./SearchBar.module.scss";
 
 interface Props {
@@ -23,6 +24,7 @@ export default function SearchBar({ onClose }: Props) {
     e.preventDefault();
     const q = query.trim();
     if (q) {
+      trackSearch(q);
       router.push(`/search?q=${encodeURIComponent(q)}`);
       onClose();
     }

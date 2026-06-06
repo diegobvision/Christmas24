@@ -2,7 +2,14 @@
   "permissions": {
     "allow": [
       "Bash(npm install *)",
-      "Bash(npx tsc *)"
+      "Bash(npx tsc *)",
+      "Bash(xargs ls -lt)",
+      "Bash(find /Users/diegopaganelli -maxdepth 3 \\\\\\( -name \"*.png\" -o -name \"*.svg\" -o -name \"*.jpg\" \\\\\\) -newer /Users/diegopaganelli/Christmas24/package.json 2>/dev/null)",
+      "Bash(cp /Users/diegopaganelli/Downloads/ChristmasShop24_HOR.png /Users/diegopaganelli/Christmas24/public/logo.png)",
+      "Bash(sips -s format png --cropToHeightWidth 512 512 --padColor FFFFFF /Users/diegopaganelli/Downloads/ChristmasShop24_HOR.png --out /Users/diegopaganelli/Christmas24/public/icon.png)",
+      "Bash(sips --cropOffset 0 0 --cropToHeightWidth 887 887 /Users/diegopaganelli/Downloads/ChristmasShop24_HOR.png --out /tmp/logo_square_crop.png)",
+      "Bash(sips -z 512 512 /tmp/logo_square_crop.png --out /Users/diegopaganelli/Christmas24/public/icon.png)",
+      "Bash(sips -g pixelWidth -g pixelHeight /Users/diegopaganelli/Christmas24/public/icon.png)"
     ]
   }
 }

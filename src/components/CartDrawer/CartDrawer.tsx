@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "@/context/CartContext";
 import { formatMoney } from "@/lib/shopify";
+import { beginCheckout, toGTMProduct } from "@/lib/gtm";
 import styles from "./CartDrawer.module.scss";
 
 export default function CartDrawer() {
@@ -136,6 +137,24 @@ export default function CartDrawer() {
             <a
               href={cart.checkoutUrl}
               className={styles.checkoutBtn}
+              data-gtm="begin-checkout"
+              onClick={() =>
+                beginCheckout({
+                  currency: cart.cost.totalAmount.currencyCode,
+                  value: parseFloat(cart.cost.totalAmount.amount),
+                  items: cart.lines.nodes.map((line) =>
+                    toGTMProduct({
+                      id: line.merchandise.id,
+                      handle: line.merchandise.product.handle,
+                      title: line.merchandise.product.title,
+                      price: line.merchandise.price.amount,
+                      currency: line.merchandise.price.currencyCode,
+                      variantTitle: line.merchandise.title,
+                      quantity: line.quantity,
+                    })
+                  ),
+                })
+              }
             >
               Proceed to Checkout →
             </a>

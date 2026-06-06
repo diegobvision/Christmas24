@@ -15,7 +15,7 @@
 
 .scrolled {
   box-shadow: $shadow-lg;
-  background: darken(#165B33, 4%);
+  background: $green-dark;
 }
 
 .inner {
@@ -27,38 +27,25 @@
 // ── Logo ────────────────────────────────────────────────────────────────────
 .logo {
   @include flex-center;
-  gap: $space-sm;
+  flex-shrink: 0;
   text-decoration: none;
-  color: $white;
+  transition: opacity $transition-fast;
 
-  &:hover .logoText {
-    color: $gold-light;
+  &:hover {
+    opacity: 0.88;
   }
+
+  @include focus-ring;
 }
 
-.logoIcon {
-  font-size: 1.5rem;
-  animation: spin 12s linear infinite;
-  display: inline-block;
-}
+.logoImage {
+  height: 44px;
+  width: auto;
+  object-fit: contain;
 
-.logoText {
-  font-family: $font-serif;
-  font-size: 1.4rem;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  transition: color $transition-fast;
-
-  em {
-    font-style: italic;
-    color: $gold;
-    font-size: 1.2rem;
+  @include sm-down {
+    height: 36px;
   }
-}
-
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
 }
 
 // ── Desktop nav ─────────────────────────────────────────────────────────────

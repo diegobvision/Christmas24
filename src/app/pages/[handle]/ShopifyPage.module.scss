@@ -1,0 +1,125 @@
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
+
+.page {
+  min-height: 100vh;
+  background: $cream;
+  padding-block: $space-2xl $space-3xl;
+}
+
+.container {
+  @include container;
+  max-width: 780px;
+}
+
+.header {
+  margin-bottom: $space-xl;
+  text-align: center;
+}
+
+.title {
+  @include heading-xl;
+  color: $green;
+  margin-bottom: $space-lg;
+}
+
+.divider {
+  @include gold-divider;
+  margin-inline: auto;
+  max-width: 120px;
+}
+
+// ── Rich text body ─────────────────────────────────────────────────────────
+// Styles all HTML Shopify outputs from its page editor
+.body {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: $charcoal-mid;
+
+  h1, h2, h3, h4 {
+    font-family: $font-serif;
+    color: $green;
+    margin-top: $space-xl;
+    margin-bottom: $space-md;
+    line-height: 1.3;
+  }
+
+  h1 { font-size: 1.8rem; }
+  h2 { font-size: 1.4rem; }
+  h3 { font-size: 1.15rem; }
+
+  p {
+    margin-bottom: $space-md;
+  }
+
+  a {
+    color: $green;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color $transition-fast;
+
+    &:hover { color: $green-mid; }
+  }
+
+  ul, ol {
+    padding-left: $space-xl;
+    margin-bottom: $space-md;
+
+    li {
+      margin-bottom: $space-sm;
+    }
+  }
+
+  ul li::marker { color: $gold; }
+  ol li::marker { color: $green; font-weight: 700; }
+
+  strong { color: $charcoal; font-weight: 700; }
+  em     { font-style: italic; }
+
+  blockquote {
+    border-left: 4px solid $gold;
+    padding-left: $space-lg;
+    margin-inline: 0;
+    margin-block: $space-lg;
+    color: $grey;
+    font-style: italic;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: $space-lg;
+    font-size: 0.95rem;
+
+    th {
+      background: $green;
+      color: $white;
+      padding: $space-sm $space-md;
+      text-align: left;
+      font-family: $font-sans;
+      font-weight: 700;
+      font-size: 0.8rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    td {
+      padding: $space-sm $space-md;
+      border-bottom: 1px solid $grey-light;
+      vertical-align: top;
+    }
+
+    tr:last-child td { border-bottom: none; }
+    tr:nth-child(even) td { background: $grey-bg; }
+  }
+
+  img {
+    max-width: 100%;
+    border-radius: $border-radius-lg;
+    margin-block: $space-lg;
+  }
+
+  hr {
+    @include gold-divider;
+  }
+}

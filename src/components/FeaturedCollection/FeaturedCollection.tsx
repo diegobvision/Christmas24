@@ -30,8 +30,14 @@ export default async function FeaturedCollection({ handle }: Props) {
       </div>
 
       <div className={styles.grid}>
-        {products.map((product) => (
-          <ProductCard key={product.id} product={product} />
+        {products.map((product, i) => (
+          <ProductCard
+            key={product.id}
+            product={product}
+            listId={`featured-${handle}`}
+            listName={`Featured: ${collection.title}`}
+            index={i}
+          />
         ))}
       </div>
     </section>

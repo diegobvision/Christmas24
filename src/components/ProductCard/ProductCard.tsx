@@ -1,20 +1,47 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import { Product, formatMoney } from "@/lib/shopify";
+import { selectItem, toGTMProduct } from "@/lib/gtm";
 import styles from "./ProductCard.module.scss";
 
 interface Props {
   product: Product;
+  listId?: string;
+  listName?: string;
+  index?: number;
 }
 
-export default function ProductCard({ product }: Props) {
+export default function ProductCard({ product, listId = "unknown", listName = "Unknown List", index }: Props) {
   const firstVariant = product.variants.nodes[0];
   const compareAtPrice = firstVariant?.compareAtPrice;
   const minPrice = product.priceRange.minVariantPrice;
   const isOnSale = compareAtPrice && parseFloat(compareAtPrice.amount) > parseFloat(minPrice.amount);
 
+  const handleClick = () => {
+    selectItem({
+      listId,
+      listName,
+      item: toGTMProduct({
+        id: product.id,
+        handle: product.handle,
+        title: product.title,
+        price: minPrice.amount,
+        currency: minPrice.currencyCode,
+        index,
+      }),
+    });
+  };
+
   return (
-    <Link href={`/products/${product.handle}`} className={styles.card}>
+    <Link
+      href={`/products/${product.handle}`}
+      className={styles.card}
+      onClick={handleClick}
+      data-gtm="product-card"
+      data-gtm-product={product.handle}
+    >
       <div className={styles.imageWrapper}>
         {product.featuredImage ? (
           <Image

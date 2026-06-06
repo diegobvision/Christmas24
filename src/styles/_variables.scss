@@ -1,8 +1,13 @@
+@use 'sass:color';
+
 // ── Christmas colour palette ───────────────────────────────────────────────
 $red:         #C41E3A;
 $red-dark:    #9B1530;
 $red-light:   #E8304F;
 $green:       #165B33;
+$green-dark:    color.adjust($green, $lightness: -4%);  // replaces darken($green, 4%)
+$green-darker:  color.adjust($green, $lightness: -8%);  // replaces darken($green, 8%)
+$green-darkest: color.adjust($green, $lightness: -10%); // replaces darken($green, 10%)
 $green-mid:   #1E7A45;
 $green-light: #2EAD60;
 $gold:        #D4AF37;

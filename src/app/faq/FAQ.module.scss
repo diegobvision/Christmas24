@@ -1,0 +1,136 @@
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
+
+.page {
+  min-height: 100vh;
+  background: $cream;
+  padding-block: $space-2xl $space-3xl;
+}
+
+.container {
+  @include container;
+  max-width: 760px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: $space-2xl;
+}
+
+.title {
+  @include heading-xl;
+  color: $green;
+  margin-bottom: $space-md;
+}
+
+.subtitle {
+  font-size: 1.05rem;
+  color: $grey;
+  margin-bottom: $space-lg;
+}
+
+.divider {
+  @include gold-divider;
+  max-width: 120px;
+  margin-inline: auto;
+}
+
+.empty {
+  @include flex-center;
+  flex-direction: column;
+  gap: $space-md;
+  padding: $space-3xl;
+  color: $grey;
+  font-size: 1.05rem;
+  text-align: center;
+
+  span { font-size: 3rem; }
+}
+
+// ── Accordion ──────────────────────────────────────────────────────────────
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+}
+
+.item {
+  background: $white;
+  border: 1px solid $grey-light;
+  border-radius: $border-radius-lg;
+  overflow: hidden;
+  transition: border-color $transition-fast, box-shadow $transition-fast;
+
+  &:hover {
+    border-color: $green-mid;
+  }
+
+  &.itemOpen {
+    border-color: $green;
+    box-shadow: $shadow-md;
+  }
+}
+
+.question {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-md;
+  padding: $space-lg;
+  text-align: left;
+  font-family: $font-serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: $charcoal;
+  cursor: pointer;
+  transition: color $transition-fast, background $transition-fast;
+
+  @include focus-ring;
+
+  &:hover {
+    color: $green;
+    background: $grey-bg;
+  }
+
+  .itemOpen & {
+    color: $green;
+    background: rgba($green, 0.04);
+  }
+}
+
+.icon {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  @include flex-center;
+  font-size: 1.2rem;
+  font-weight: 300;
+  color: $green;
+  transition: transform $transition-mid, background $transition-fast;
+
+  .itemOpen & {
+    background: $green;
+    color: $white;
+  }
+}
+
+.answerWrapper {
+  overflow: hidden;
+  transition: max-height 0.35s ease;
+}
+
+.answer {
+  padding: 0 $space-lg $space-lg;
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: $charcoal-mid;
+  border-top: 1px solid $grey-light;
+  padding-top: $space-md;
+  margin-top: 0;
+  margin-inline: $space-lg;
+  margin-bottom: $space-lg;
+}

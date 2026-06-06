@@ -150,6 +150,20 @@ export type SortKey =
   | "CREATED"
   | "TITLE";
 
+export interface CollectionFilterValue {
+  id: string;
+  label: string;
+  count: number;
+  input: string; // JSON string, e.g. '{"tag":"christmas-tree"}'
+}
+
+export interface CollectionFilter {
+  id: string;
+  label: string;
+  type: string;
+  values: CollectionFilterValue[];
+}
+
 export interface CollectionProductsResult {
   collection: {
     id: string;
@@ -159,6 +173,7 @@ export interface CollectionProductsResult {
     image: ShopifyImage | null;
     products: {
       nodes: Product[];
+      filters: CollectionFilter[];
       pageInfo: { hasNextPage: boolean; endCursor: string | null };
     };
   } | null;
@@ -177,7 +192,7 @@ export async function getCollectionProducts(
     after?: string;
     sortKey?: SortKey;
     reverse?: boolean;
-    filters?: { available?: boolean; minPrice?: number; maxPrice?: number };
+    filters?: { available?: boolean; minPrice?: number; maxPrice?: number; tag?: string };
   } = {}
 ): Promise<CollectionProductsResult> {
   const productFilters: unknown[] = [];
@@ -190,6 +205,7 @@ export async function getCollectionProducts(
       },
     });
   }
+  if (filters?.tag) productFilters.push({ tag: filters.tag });
 
   return shopifyFetch<CollectionProductsResult>(
     `query GetCollectionProducts(
@@ -211,6 +227,12 @@ export async function getCollectionProducts(
           filters: $filters
         ) {
           nodes { ...ProductCard }
+          filters {
+            id
+            label
+            type
+            values { id label count input }
+          }
           pageInfo { hasNextPage endCursor }
         }
       }
@@ -274,6 +296,28 @@ export async function searchProducts(
     { query, first }
   );
   return data.products.nodes;
+}
+
+// ── All tags for a collection (for filter panel) ───────────────────────────
+
+export async function getCollectionTags(handle: string): Promise<string[]> {
+  // Fetch up to 250 products to collect all unique tags
+  const data = await shopifyFetch<{
+    collectionByHandle: { products: { nodes: { tags: string[] }[] } } | null;
+  }>(
+    `query GetCollectionTags($handle: String!) {
+      collectionByHandle(handle: $handle) {
+        products(first: 250) {
+          nodes { tags }
+        }
+      }
+    }`,
+    { handle }
+  );
+
+  const allTags = data.collectionByHandle?.products.nodes.flatMap((p) => p.tags) ?? [];
+  // Deduplicate, sort alphabetically, filter empty strings
+  return [...new Set(allTags)].filter(Boolean).sort((a, b) => a.localeCompare(b));
 }
 
 // ── Featured collections for homepage ─────────────────────────────────────
@@ -397,6 +441,130 @@ export async function getCart(cartId: string): Promise<Cart | null> {
     { cartId }
   );
   return data.cart;
+}
+
+// ── Pages (Shopify CMS pages) ──────────────────────────────────────────────
+
+export interface ShopifyPage {
+  id: string;
+  title: string;
+  handle: string;
+  body: string;
+  bodySummary: string;
+  createdAt: string;
+  updatedAt: string;
+  seo: { title: string | null; description: string | null };
+}
+
+export async function getPage(handle: string): Promise<ShopifyPage | null> {
+  const data = await shopifyFetch<{ page: ShopifyPage | null }>(
+    `query GetPage($handle: String!) {
+      page(handle: $handle) {
+        id title handle body bodySummary createdAt updatedAt
+        seo { title description }
+      }
+    }`,
+    { handle }
+  );
+  return data.page;
+}
+
+export async function getAllPageHandles(): Promise<{ handle: string; updatedAt: string }[]> {
+  const data = await shopifyFetch<{
+    pages: { nodes: { handle: string; updatedAt: string }[] };
+  }>(
+    `query GetAllPageHandles {
+      pages(first: 250) {
+        nodes { handle updatedAt }
+      }
+    }`
+  );
+  return data.pages.nodes;
+}
+
+// ── Metaobjects (structured CMS content) ───────────────────────────────────
+
+export interface MetaobjectField {
+  key: string;
+  value: string | null;
+}
+
+export interface Metaobject {
+  id: string;
+  handle: string;
+  fields: MetaobjectField[];
+}
+
+export async function getMetaobjects(type: string, first = 50): Promise<Metaobject[]> {
+  const data = await shopifyFetch<{
+    metaobjects: { nodes: Metaobject[] };
+  }>(
+    `query GetMetaobjects($type: String!, $first: Int!) {
+      metaobjects(type: $type, first: $first, sortKey: "position") {
+        nodes {
+          id
+          handle
+          fields { key value }
+        }
+      }
+    }`,
+    { type, first }
+  );
+  return data.metaobjects.nodes;
+}
+
+/** Helper: pull a field value by key from a metaobject */
+export function metafield(obj: Metaobject, key: string): string {
+  return obj.fields.find((f) => f.key === key)?.value ?? "";
+}
+
+// ── Sitemap ────────────────────────────────────────────────────────────────
+
+type ProductHandlePage = {
+  products: {
+    nodes: { handle: string; updatedAt: string }[];
+    pageInfo: { hasNextPage: boolean; endCursor: string };
+  };
+};
+
+export async function getAllProductHandles(): Promise<
+  { handle: string; updatedAt: string }[]
+> {
+  const allProducts: { handle: string; updatedAt: string }[] = [];
+  let cursor: string | null = null;
+  let hasNextPage = true;
+
+  while (hasNextPage) {
+    const data: ProductHandlePage = await shopifyFetch<ProductHandlePage>(
+      `query GetAllProductHandles($cursor: String) {
+        products(first: 250, after: $cursor) {
+          nodes { handle updatedAt }
+          pageInfo { hasNextPage endCursor }
+        }
+      }`,
+      { cursor }
+    );
+    allProducts.push(...data.products.nodes);
+    hasNextPage = data.products.pageInfo.hasNextPage;
+    cursor = hasNextPage ? data.products.pageInfo.endCursor : null;
+  }
+
+  return allProducts;
+}
+
+export async function getAllCollectionHandles(): Promise<
+  { handle: string; updatedAt: string }[]
+> {
+  const data = await shopifyFetch<{
+    collections: { nodes: { handle: string; updatedAt: string }[] };
+  }>(
+    `query GetAllCollectionHandles {
+      collections(first: 250) {
+        nodes { handle updatedAt }
+      }
+    }`
+  );
+  return data.collections.nodes;
 }
 
 // ── Helpers ────────────────────────────────────────────────────────────────

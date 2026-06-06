@@ -7,7 +7,7 @@
   background: linear-gradient(
     145deg,
     $green 0%,
-    darken(#165B33, 5%) 40%,
+    $green-dark 40%,
     #0D3D22 100%
   );
   @include flex-center;

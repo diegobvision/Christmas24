@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useTransition, useEffect } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { Product, ShopifyImage } from "@/lib/shopify";
+import { viewItemList, filterUsed, toGTMProduct } from "@/lib/gtm";
 import ProductCard from "@/components/ProductCard/ProductCard";
 import styles from "./CollectionPage.module.scss";
 
@@ -29,7 +30,9 @@ interface Props {
     available?: boolean;
     minPrice?: number;
     maxPrice?: number;
+    tag?: string;
   };
+  availableTags: string[];
 }
 
 const SORT_OPTIONS = [
@@ -47,6 +50,7 @@ export default function CollectionPageClient({
   pageInfo,
   currentSort,
   currentFilters,
+  availableTags,
 }: Props) {
   const router = useRouter();
   const pathname = usePathname();
@@ -61,6 +65,15 @@ export default function CollectionPageClient({
     if (value) params.set(key, value);
     else params.delete(key);
     startTransition(() => router.push(`${pathname}?${params.toString()}`));
+
+    // GTM: filter_used
+    if (value) {
+      filterUsed({
+        filterType: key as "tag" | "availability" | "price" | "sort",
+        filterValue: value,
+        collectionHandle: collection.handle,
+      });
+    }
   };
 
   const applyPriceFilter = () => {
@@ -79,7 +92,26 @@ export default function CollectionPageClient({
   };
 
   const hasActiveFilters =
-    currentSort || currentFilters.available || currentFilters.minPrice || currentFilters.maxPrice;
+    currentSort || currentFilters.available || currentFilters.minPrice || currentFilters.maxPrice || currentFilters.tag;
+
+  // GTM: view_item_list on mount and when products change
+  useEffect(() => {
+    if (initialProducts.length === 0) return;
+    viewItemList({
+      listId: collection.handle,
+      listName: collection.title,
+      items: initialProducts.map((p, i) =>
+        toGTMProduct({
+          id: p.id,
+          handle: p.handle,
+          title: p.title,
+          price: p.priceRange.minVariantPrice.amount,
+          currency: p.priceRange.minVariantPrice.currencyCode,
+          index: i,
+        })
+      ),
+    });
+  }, [initialProducts, collection.handle, collection.title]);
 
   return (
     <div className={styles.page}>
@@ -131,7 +163,16 @@ export default function CollectionPageClient({
             id="sort-select"
             className={styles.sortSelect}
             value={currentSort}
-            onChange={(e) => updateParam("sort", e.target.value)}
+            onChange={(e) => {
+              updateParam("sort", e.target.value);
+              if (e.target.value) {
+                filterUsed({
+                  filterType: "sort",
+                  filterValue: e.target.value,
+                  collectionHandle: collection.handle,
+                });
+              }
+            }}
           >
             {SORT_OPTIONS.map((opt) => (
               <option key={opt.value} value={opt.value}>
@@ -160,6 +201,26 @@ export default function CollectionPageClient({
                 <span>In stock only</span>
               </label>
             </div>
+
+            {availableTags.length > 0 && (
+              <div className={styles.filterSection}>
+                <h3 className={styles.filterHeading}>Tags</h3>
+                <div className={styles.tagList}>
+                  {availableTags.map((tag) => {
+                    const isActive = currentFilters.tag === tag;
+                    return (
+                      <button
+                        key={tag}
+                        className={`${styles.tagBtn} ${isActive ? styles.tagActive : ""}`}
+                        onClick={() => updateParam("tag", isActive ? "" : tag)}
+                      >
+                        {tag}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
 
             <div className={styles.filterSection}>
               <h3 className={styles.filterHeading}>Price range</h3>
@@ -210,8 +271,14 @@ export default function CollectionPageClient({
               <div
                 className={`${styles.grid} ${filtersOpen ? styles.gridNarrow : ""}`}
               >
-                {initialProducts.map((product) => (
-                  <ProductCard key={product.id} product={product} />
+                {initialProducts.map((product, i) => (
+                  <ProductCard
+                    key={product.id}
+                    product={product}
+                    listId={collection.handle}
+                    listName={collection.title}
+                    index={i}
+                  />
                 ))}
               </div>
             )}

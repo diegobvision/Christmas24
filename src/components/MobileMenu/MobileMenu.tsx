@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Collection } from "@/lib/shopify";
 import styles from "./MobileMenu.module.scss";
@@ -37,7 +38,13 @@ export default function MobileMenu({ collections, isOpen, onClose }: Props) {
         aria-hidden={!isOpen}
       >
         <div className={styles.header}>
-          <span className={styles.title}>Menu</span>
+          <Image
+            src="/logo.png"
+            alt="Christmas Shop 24"
+            width={120}
+            height={40}
+            className={styles.logo}
+          />
           <button className={styles.close} onClick={onClose} aria-label="Close menu">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <line x1="18" y1="6" x2="6" y2="18" />

@@ -1,10 +1,39 @@
 import { Suspense } from "react";
+import type { Metadata } from "next";
 import { getNavCollectionHandles } from "@/lib/shopify";
 import HeroBanner from "@/components/HeroBanner/HeroBanner";
 import FeaturedCollection from "@/components/FeaturedCollection/FeaturedCollection";
+import JsonLd from "@/components/JsonLd/JsonLd";
 import styles from "./page.module.scss";
 
 export const revalidate = 60;
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://christmas24.co.uk";
+
+export const metadata: Metadata = {
+  alternates: { canonical: siteUrl },
+  openGraph: {
+    type: "website",
+    url: siteUrl,
+    title: "Christmas24 — Gifts & Decorations",
+    description:
+      "Discover our magical selection of Christmas gifts, decorations, and festive essentials. Free UK delivery over £50.",
+  },
+};
+
+const storeSchema = {
+  "@context": "https://schema.org",
+  "@type": "Store",
+  name: "Christmas24",
+  description:
+    "A curated Christmas retail store offering gifts, decorations, and festive essentials.",
+  url: siteUrl,
+  currenciesAccepted: "GBP",
+  paymentAccepted: "Credit Card, Debit Card",
+  priceRange: "££",
+  openingHours: "Mo-Su 00:00-23:59",
+  hasMap: false,
+};
 
 function CollectionSkeleton() {
   return (
@@ -24,6 +53,7 @@ export default function HomePage() {
 
   return (
     <>
+      <JsonLd data={storeSchema} />
       <HeroBanner />
 
       <div id="featured" className={styles.featured}>

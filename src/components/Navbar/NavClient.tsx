@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Collection } from "@/lib/shopify";
 import { useCart } from "@/context/CartContext";
@@ -37,9 +38,15 @@ export default function NavClient({ collections }: Props) {
       <header className={`${styles.navbar} ${scrolled ? styles.scrolled : ""}`}>
         <div className={styles.inner}>
           {/* Logo */}
-          <Link href="/" className={styles.logo}>
-            <span className={styles.logoIcon} aria-hidden="true">❄</span>
-            <span className={styles.logoText}>Christmas<em>24</em></span>
+          <Link href="/" className={styles.logo} aria-label="Christmas Shop 24 — Home">
+            <Image
+              src="/logo.png"
+              alt="Christmas Shop 24"
+              width={160}
+              height={52}
+              priority
+              className={styles.logoImage}
+            />
           </Link>
 
           {/* Desktop nav */}
