@@ -39,10 +39,10 @@ export default function MobileMenu({ collections, isOpen, onClose }: Props) {
       >
         <div className={styles.header}>
           <Image
-            src="/logo.png"
+            src="/logo-light.svg"
             alt="Christmas Shop 24"
             width={120}
-            height={40}
+            height={49}
             className={styles.logo}
           />
           <button className={styles.close} onClick={onClose} aria-label="Close menu">

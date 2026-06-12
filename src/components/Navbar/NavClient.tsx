@@ -40,10 +40,10 @@ export default function NavClient({ collections }: Props) {
           {/* Logo */}
           <Link href="/" className={styles.logo} aria-label="Christmas Shop 24 — Home">
             <Image
-              src="/logo.png"
+              src="/logo-light.svg"
               alt="Christmas Shop 24"
               width={160}
-              height={52}
+              height={65}
               priority
               className={styles.logoImage}
             />

@@ -36,10 +36,10 @@ interface Props {
 }
 
 const SORT_OPTIONS = [
-  { label: "Featured",    value: "" },
+  { label: "Featured", value: "" },
   { label: "Best Selling", value: "best_selling" },
-  { label: "Newest",       value: "created" },
-  { label: "A–Z",          value: "title" },
+  { label: "Newest", value: "created" },
+  { label: "A–Z", value: "title" },
   { label: "Price: Low–High", value: "price" },
   { label: "Price: High–Low", value: "price-desc" },
 ];
@@ -56,9 +56,13 @@ export default function CollectionPageClient({
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
-  const [filtersOpen, setFiltersOpen] = useState(false);
-  const [minPrice, setMinPrice] = useState(currentFilters.minPrice?.toString() ?? "");
-  const [maxPrice, setMaxPrice] = useState(currentFilters.maxPrice?.toString() ?? "");
+  const [filtersOpen, setFiltersOpen] = useState(true);
+  const [minPrice, setMinPrice] = useState(
+    currentFilters.minPrice?.toString() ?? "",
+  );
+  const [maxPrice, setMaxPrice] = useState(
+    currentFilters.maxPrice?.toString() ?? "",
+  );
 
   const updateParam = (key: string, value: string) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -92,7 +96,11 @@ export default function CollectionPageClient({
   };
 
   const hasActiveFilters =
-    currentSort || currentFilters.available || currentFilters.minPrice || currentFilters.maxPrice || currentFilters.tag;
+    currentSort ||
+    currentFilters.available ||
+    currentFilters.minPrice ||
+    currentFilters.maxPrice ||
+    currentFilters.tag;
 
   // GTM: view_item_list on mount and when products change
   useEffect(() => {
@@ -108,7 +116,7 @@ export default function CollectionPageClient({
           price: p.priceRange.minVariantPrice.amount,
           currency: p.priceRange.minVariantPrice.currencyCode,
           index: i,
-        })
+        }),
       ),
     });
   }, [initialProducts, collection.handle, collection.title]);
@@ -130,12 +138,16 @@ export default function CollectionPageClient({
             <div className={styles.headerOverlay} />
           </div>
         )}
-        <div className={`${styles.headerContent} ${!collection.image ? styles.noImage : ""}`}>
+        <div
+          className={`${styles.headerContent} ${!collection.image ? styles.noImage : ""}`}
+        >
           <h1 className={styles.collectionTitle}>{collection.title}</h1>
           {collection.description && (
             <p className={styles.collectionDesc}>{collection.description}</p>
           )}
-          <p className={styles.productCount}>{initialProducts.length} products</p>
+          <p className={styles.productCount}>
+            {initialProducts.length} products
+          </p>
         </div>
       </div>
 
@@ -158,7 +170,9 @@ export default function CollectionPageClient({
 
           <div className={styles.spacer} />
 
-          <label className={styles.sortLabel} htmlFor="sort-select">Sort by:</label>
+          <label className={styles.sortLabel} htmlFor="sort-select">
+            Sort by:
+          </label>
           <select
             id="sort-select"
             className={styles.sortSelect}
@@ -291,7 +305,14 @@ export default function CollectionPageClient({
 
 function FilterIcon() {
   return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+    >
       <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
     </svg>
   );

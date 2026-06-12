@@ -22,21 +22,15 @@
 
 .brand {
   max-width: 280px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .logo {
-  font-family: $font-serif;
-  font-size: 1.6rem;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: $space-sm;
-
-  em {
-    font-style: italic;
-    color: $gold;
-    font-size: 1.3rem;
-  }
+  display: block;
+  width: clamp(140px, 18vw, 200px);
+  height: auto;
 }
 
 .tagline {
@@ -44,6 +38,31 @@
   font-size: 0.9rem;
   color: rgba($white, 0.65);
   line-height: 1.5;
+  text-align: center;
+}
+
+.socials {
+  display: flex;
+  gap: $space-md;
+  margin-top: $space-lg;
+
+  a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    color: rgba($white, 0.7);
+    border: 1px solid rgba($white, 0.2);
+    transition: color $transition-fast, border-color $transition-fast, background $transition-fast;
+
+    &:hover {
+      color: $white;
+      border-color: rgba($white, 0.6);
+      background: rgba($white, 0.1);
+    }
+  }
 }
 
 .links {

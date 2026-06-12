@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { heroCTAClick } from "@/lib/gtm";
 import styles from "./HeroBanner.module.scss";
 
@@ -25,17 +26,26 @@ export default function HeroBanner() {
       </div>
 
       <div className={styles.content}>
+        <Image
+          src="/logo-light.svg"
+          alt="Christmas Shop 24"
+          width={380}
+          height={153}
+          priority
+          className={styles.heroLogo}
+        />
         <p className={styles.eyebrow}>✦ The Christmas Collection ✦</p>
         <h1 className={styles.headline}>
-          Make This Christmas<br />
+          Make This Christmas
+          <br />
           <em>Truly Magical</em>
         </h1>
-        <p className={styles.subtext}>
-          Discover thoughtfully curated gifts, enchanting decorations,
-          and festive treasures for everyone on your list.
-        </p>
+        {/* <p className={styles.subtext}>
+          Discover thoughtfully curated gifts, enchanting decorations, and
+          festive treasures for everyone on your list.
+        </p> */}
         <div className={styles.ctas}>
-          <Link
+          {/* <Link
             href="/search"
             className={styles.ctaPrimary}
             onClick={() => heroCTAClick("Shop All Gifts")}
@@ -43,7 +53,7 @@ export default function HeroBanner() {
             data-gtm-label="shop-all-gifts"
           >
             Shop All Gifts
-          </Link>
+          </Link> */}
           <Link
             href="#featured"
             className={styles.ctaSecondary}

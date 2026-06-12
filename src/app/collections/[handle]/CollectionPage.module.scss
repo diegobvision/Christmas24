@@ -1,5 +1,5 @@
-@use '@/styles/variables' as *;
-@use '@/styles/mixins' as *;
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
 
 .page {
   min-height: 100vh;
@@ -51,16 +51,16 @@
 }
 
 .collectionTitle {
-  @include heading-xl;
+  @include heading-lg;
   color: $white;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .collectionDesc {
   margin-top: $space-sm;
   font-size: 1rem;
   color: rgba($white, 0.85);
-  max-width: 480px;
+  max-width: 720px;
 }
 
 .productCount {
@@ -96,7 +96,8 @@
   font-size: 0.85rem;
   position: relative;
 
-  &:hover, &.active {
+  &:hover,
+  &.active {
     background: $green;
     color: $white;
   }
@@ -120,7 +121,9 @@
   text-decoration: underline;
   transition: color $transition-fast;
 
-  &:hover { color: $red-dark; }
+  &:hover {
+    color: $red-dark;
+  }
 }
 
 .spacer {
@@ -144,7 +147,8 @@
   cursor: pointer;
   transition: border-color $transition-fast;
 
-  &:hover, &:focus {
+  &:hover,
+  &:focus {
     border-color: $green;
     outline: none;
   }
@@ -172,7 +176,9 @@
   max-height: 0;
   opacity: 0;
   pointer-events: none;
-  transition: max-height $transition-mid, opacity $transition-mid;
+  transition:
+    max-height $transition-mid,
+    opacity $transition-mid;
 
   &.filterOpen {
     max-height: 600px;
@@ -239,9 +245,17 @@
   overflow-y: auto;
   padding-right: 4px;
 
-  &::-webkit-scrollbar { width: 4px; }
-  &::-webkit-scrollbar-track { background: $grey-bg; border-radius: 2px; }
-  &::-webkit-scrollbar-thumb { background: $grey-light; border-radius: 2px; }
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  &::-webkit-scrollbar-track {
+    background: $grey-bg;
+    border-radius: 2px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: $grey-light;
+    border-radius: 2px;
+  }
 }
 
 .tagBtn {
@@ -276,7 +290,6 @@
     color: $white;
   }
 }
-
 
 .priceInputs {
   display: flex;
@@ -313,7 +326,9 @@
       border-color: $green;
     }
 
-    &::placeholder { color: $grey; }
+    &::placeholder {
+      color: $grey;
+    }
   }
 }
 
@@ -343,10 +358,22 @@
 }
 
 @keyframes loadSlide {
-  0%   { transform: scaleX(0); transform-origin: left; }
-  50%  { transform: scaleX(1); transform-origin: left; }
-  51%  { transform: scaleX(1); transform-origin: right; }
-  100% { transform: scaleX(0); transform-origin: right; }
+  0% {
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+  50% {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+  51% {
+    transform: scaleX(1);
+    transform-origin: right;
+  }
+  100% {
+    transform: scaleX(0);
+    transform-origin: right;
+  }
 }
 
 .grid {
@@ -386,7 +413,9 @@
   color: $grey;
   font-size: 1.05rem;
 
-  span { font-size: 3rem; }
+  span {
+    font-size: 3rem;
+  }
 }
 
 .clearBtn {

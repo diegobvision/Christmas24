@@ -1,5 +1,5 @@
-@use '@/styles/variables' as *;
-@use '@/styles/mixins' as *;
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
 
 .section {
   padding-block: $space-2xl;
@@ -21,7 +21,7 @@
   margin-top: $space-sm;
   color: $grey;
   font-size: 0.95rem;
-  max-width: 480px;
+  max-width: 720px;
 }
 
 .viewAll {
@@ -34,7 +34,9 @@
   border-bottom: 2px solid $red;
   padding-bottom: 2px;
   white-space: nowrap;
-  transition: color $transition-fast, border-color $transition-fast;
+  transition:
+    color $transition-fast,
+    border-color $transition-fast;
 
   &:hover {
     color: $red-dark;
