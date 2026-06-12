@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { getNavCollectionHandles } from "@/lib/shopify";
 import HeroBanner from "@/components/HeroBanner/HeroBanner";
 import FeaturedCollection from "@/components/FeaturedCollection/FeaturedCollection";
+import PodcastSection from "@/components/PodcastSection/PodcastSection";
 import JsonLd from "@/components/JsonLd/JsonLd";
 import styles from "./page.module.scss";
 
@@ -75,6 +76,8 @@ export default function HomePage() {
           )}
         </div>
       </div>
+
+      <PodcastSection spotifyShowId="033uGM5v7AfjVpJAUdB29u" />
     </>
   );
 }

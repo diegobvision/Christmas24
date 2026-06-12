@@ -1,0 +1,44 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+.section {
+  background: $cream;
+  padding-block: $space-2xl;
+  @include snowflake-bg;
+}
+
+.container {
+  @include container;
+  text-align: center;
+}
+
+.title {
+  @include heading-lg;
+  color: $green;
+  margin-bottom: $space-md;
+}
+
+.intro {
+  @include body-text;
+  max-width: 560px;
+  margin: 0 auto $space-xl;
+}
+
+.embedWrapper {
+  @include card;
+  max-width: 700px;
+  margin-inline: auto;
+  padding: $space-md;
+  border-top: 3px solid $gold;
+
+  @include sm-down {
+    padding: $space-sm;
+  }
+}
+
+.embed {
+  display: block;
+  width: 100%;
+  border: 0;
+  border-radius: $border-radius-lg;
+}
