@@ -32,6 +32,11 @@ src/
 │   ├── products/[handle]/
 │   │   ├── page.tsx                      # Server component — fetches single product
 │   │   └── ProductPageClient.tsx         # Client component — gallery, variants, add to cart
+│   ├── blog/
+│   │   ├── page.tsx                      # Server component — 20 latest articles, header + intro
+│   │   ├── BlogClient.tsx                # Client component — tag filter, article grid
+│   │   └── [handle]/
+│   │       └── page.tsx                  # Server component — single article, SSG + generateMetadata
 │   └── search/
 │       └── page.tsx                      # Server component — search results
 ├── components/
@@ -42,6 +47,7 @@ src/
 │   ├── SearchBar/                        # Modal overlay search, routes to /search?q=
 │   ├── CartDrawer/                       # Slide-in drawer (right), quantity controls
 │   ├── ProductCard/                      # Card used in grids — image, price, sale badge
+│   ├── BlogCard/                         # Article card (16/9 image, author, date, excerpt) + TagPill
 │   ├── HeroBanner/                       # Full-viewport hero on homepage
 │   ├── FeaturedCollection/               # Async server component — 4 best-selling products
 │   └── Footer/
@@ -129,6 +135,16 @@ NEXT_PUBLIC_NAV_COLLECTIONS=tree-decorations,gifts,stocking-fillers
 - `unauthenticated_read_product_tags`
 - `unauthenticated_write_checkouts`
 - `unauthenticated_read_checkouts`
+- `unauthenticated_read_content` (blogs and articles)
+
+### Blog (Shopify Blogs & Articles)
+
+- Powered by Shopify's native blog — articles are written in **Shopify Admin → Online Store → Blog posts** and appear on the site within a minute (ISR).
+- Queries in `src/lib/shopify.ts`: `getArticles(first)` (latest N from the first blog), `getArticleByHandle(blogHandle, articleHandle)`, `getBlogHandles()`. The `Article.author` field is queried via `authorV2` (the non-deprecated field), aliased to `author`.
+- `getArticles` reads from the **first blog only** (`blogs(first: 1)`) — the store currently has a single blog (`news`).
+- Article URLs are `/blog/<article-handle>` — the blog handle is not in the URL. The article page resolves the owning blog internally by looping over `getBlogHandles()`, since article handles are unique within a blog.
+- All articles are pre-rendered at build time via `generateStaticParams`; new articles published after a deploy are still served on demand thanks to ISR.
+- The listing page's tag filter is purely client-side (in `BlogClient.tsx`) and only renders if articles have tags.
 
 ---
 

@@ -1,0 +1,138 @@
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
+
+.page {
+  min-height: 100vh;
+  padding-bottom: $space-3xl;
+}
+
+// ── Header ───────────────────────────────────────────────────────────────────
+.header {
+  @include container;
+  @include flex-center;
+  flex-direction: column;
+  text-align: center;
+  padding-block: $space-2xl $space-xl;
+  gap: $space-md;
+}
+
+.title {
+  @include heading-xl;
+  color: $green;
+  max-width: 720px;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: $space-sm;
+  font-size: 0.9rem;
+  color: $grey;
+}
+
+.author {
+  font-weight: 700;
+  color: $green;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: $space-sm;
+}
+
+// ── Featured image ───────────────────────────────────────────────────────────
+.imageWrapper {
+  @include container;
+  position: relative;
+  aspect-ratio: 16 / 9;
+  margin-bottom: $space-xl;
+
+  @include sm-down {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+.image {
+  object-fit: cover;
+  border-radius: $border-radius-lg;
+}
+
+// ── Article body ─────────────────────────────────────────────────────────────
+.prose {
+  max-width: 720px;
+  margin-inline: auto;
+  padding-inline: $space-lg;
+  font-family: $font-sans;
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: $charcoal-mid;
+
+  @include sm-down {
+    padding-inline: $space-md;
+  }
+
+  h2,
+  h3,
+  h4 {
+    font-family: $font-serif;
+    color: $green;
+    line-height: 1.3;
+    margin: $space-xl 0 $space-md;
+  }
+
+  h2 {
+    font-size: 1.6rem;
+  }
+
+  h3 {
+    font-size: 1.3rem;
+  }
+
+  h4 {
+    font-size: 1.1rem;
+  }
+
+  p {
+    margin-bottom: $space-md;
+  }
+
+  a {
+    color: $red;
+    text-decoration: underline;
+    transition: color $transition-fast;
+
+    &:hover {
+      color: $red-dark;
+    }
+  }
+
+  ul,
+  ol {
+    margin: 0 0 $space-md;
+    padding-left: $space-lg;
+
+    li {
+      margin-bottom: $space-sm;
+    }
+  }
+
+  blockquote {
+    margin: $space-lg 0;
+    padding-left: $space-md;
+    border-left: 3px solid $gold;
+    font-family: $font-serif;
+    font-size: 1.15rem;
+    font-style: italic;
+    color: $charcoal;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    border-radius: $border-radius-lg;
+    margin: $space-lg 0;
+  }
+}

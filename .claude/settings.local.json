@@ -16,7 +16,8 @@
       "Bash(git add *)",
       "Bash(git commit -m ' *)",
       "Bash(git push *)",
-      "Bash(cp /Users/diegopaganelli/Desktop/SVG/logo.svg /Users/diegopaganelli/Workspaces/ct-christmas-shop-24/public/logo.svg)"
+      "Bash(cp /Users/diegopaganelli/Desktop/SVG/logo.svg /Users/diegopaganelli/Workspaces/ct-christmas-shop-24/public/logo.svg)",
+      "Bash(node --env-file=.env.local -e ' *)"
     ]
   }
 }

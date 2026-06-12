@@ -62,6 +62,14 @@ export default function NavClient({ collections }: Props) {
                 {col.title}
               </Link>
             ))}
+            <Link
+              href="/blog"
+              className={`${styles.navLink} ${
+                pathname.startsWith("/blog") ? styles.active : ""
+              }`}
+            >
+              Blog
+            </Link>
           </nav>
 
           {/* Actions */}

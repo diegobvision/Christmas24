@@ -74,6 +74,12 @@ export default function MobileMenu({ collections, isOpen, onClose }: Props) {
             </Link>
           ))}
           <div className={styles.divider} />
+          <Link
+            href="/blog"
+            className={`${styles.link} ${pathname.startsWith("/blog") ? styles.active : ""}`}
+          >
+            <span className={styles.linkIcon}>📖</span> Blog
+          </Link>
           <Link href="/search" className={styles.link}>
             <span className={styles.linkIcon}>🔍</span> Search
           </Link>

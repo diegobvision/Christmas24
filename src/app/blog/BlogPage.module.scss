@@ -1,0 +1,104 @@
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
+
+.page {
+  min-height: 100vh;
+}
+
+// ── Header ───────────────────────────────────────────────────────────────────
+.header {
+  @include flex-center;
+  flex-direction: column;
+  text-align: center;
+  padding: $space-2xl $space-lg;
+  background: linear-gradient(135deg, $green, $green-darker);
+  color: $white;
+}
+
+.heading {
+  @include heading-lg;
+  color: $white;
+}
+
+.intro {
+  margin-top: $space-sm;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: rgba($white, 0.85);
+  max-width: 720px;
+}
+
+// ── Body ─────────────────────────────────────────────────────────────────────
+.body {
+  @include container;
+  padding-block: $space-xl $space-3xl;
+}
+
+// ── Tag filter ───────────────────────────────────────────────────────────────
+.tagFilter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-sm;
+  padding-bottom: $space-lg;
+  border-bottom: 1px solid $grey-light;
+  margin-bottom: $space-lg;
+}
+
+.tagBtn {
+  padding: 7px 14px;
+  border: 1px solid $grey-light;
+  border-radius: $border-radius;
+  font-family: $font-sans;
+  font-size: 0.85rem;
+  color: $charcoal;
+  background: $white;
+  cursor: pointer;
+  transition: all $transition-fast;
+
+  &:hover {
+    border-color: $green-mid;
+    color: $green;
+  }
+
+  @include focus-ring;
+}
+
+.tagActive {
+  border-color: $green;
+  background: $green;
+  color: $white;
+
+  &:hover {
+    color: $white;
+  }
+}
+
+// ── Grid ─────────────────────────────────────────────────────────────────────
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $space-lg;
+
+  @include md {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include sm-down {
+    grid-template-columns: 1fr;
+    gap: $space-md;
+  }
+}
+
+.empty {
+  @include flex-center;
+  flex-direction: column;
+  gap: $space-md;
+  padding: $space-3xl $space-lg;
+  text-align: center;
+  color: $grey;
+  font-size: 1.05rem;
+
+  span {
+    font-size: 3rem;
+  }
+}

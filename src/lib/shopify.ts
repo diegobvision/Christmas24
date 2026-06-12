@@ -518,6 +518,89 @@ export function metafield(obj: Metaobject, key: string): string {
   return obj.fields.find((f) => f.key === key)?.value ?? "";
 }
 
+// ── Blog & articles ────────────────────────────────────────────────────────
+
+export interface ShopifyArticle {
+  id: string;
+  title: string;
+  handle: string;
+  publishedAt: string;
+  excerpt: string;
+  contentHtml: string;
+  tags: string[];
+  image: ShopifyImage | null;
+  author: { name: string } | null;
+}
+
+export interface ShopifyBlog {
+  id: string;
+  handle: string;
+  title: string;
+  articles: { edges: { node: ShopifyArticle }[] };
+}
+
+const ARTICLE_FRAGMENT = `
+  fragment ArticleFields on Article {
+    id
+    title
+    handle
+    publishedAt
+    excerpt
+    contentHtml
+    tags
+    image { url altText width height }
+    author: authorV2 { name }
+  }
+`;
+
+export async function getArticles(first: number): Promise<ShopifyArticle[]> {
+  const data = await shopifyFetch<{ blogs: { nodes: ShopifyBlog[] } }>(
+    `query GetArticles($first: Int!) {
+      blogs(first: 1) {
+        nodes {
+          id handle title
+          articles(first: $first, sortKey: PUBLISHED_AT, reverse: true) {
+            edges { node { ...ArticleFields } }
+          }
+        }
+      }
+    }
+    ${ARTICLE_FRAGMENT}`,
+    { first }
+  );
+  const blog = data.blogs.nodes[0];
+  return blog?.articles.edges.map((edge) => edge.node) ?? [];
+}
+
+export async function getArticleByHandle(
+  blogHandle: string,
+  articleHandle: string
+): Promise<ShopifyArticle | null> {
+  const data = await shopifyFetch<{
+    blogByHandle: { articleByHandle: ShopifyArticle | null } | null;
+  }>(
+    `query GetArticleByHandle($blogHandle: String!, $articleHandle: String!) {
+      blogByHandle(handle: $blogHandle) {
+        articleByHandle(handle: $articleHandle) { ...ArticleFields }
+      }
+    }
+    ${ARTICLE_FRAGMENT}`,
+    { blogHandle, articleHandle }
+  );
+  return data.blogByHandle?.articleByHandle ?? null;
+}
+
+export async function getBlogHandles(): Promise<string[]> {
+  const data = await shopifyFetch<{ blogs: { nodes: { handle: string }[] } }>(
+    `query GetBlogHandles {
+      blogs(first: 250) {
+        nodes { handle }
+      }
+    }`
+  );
+  return data.blogs.nodes.map((blog) => blog.handle);
+}
+
 // ── Sitemap ────────────────────────────────────────────────────────────────
 
 type ProductHandlePage = {
