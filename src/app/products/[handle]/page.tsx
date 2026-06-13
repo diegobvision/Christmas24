@@ -114,7 +114,7 @@ export default async function ProductPage({ params }: Props) {
     <>
       <JsonLd data={productSchema} />
       <JsonLd data={breadcrumbSchema} />
-      <ProductPageClient product={product} />
+      <ProductPageClient product={product} shareUrl={url} />
     </>
   );
 }

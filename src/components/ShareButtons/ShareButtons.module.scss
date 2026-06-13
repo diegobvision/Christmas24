@@ -1,0 +1,68 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+.share {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: $space-md;
+}
+
+.label {
+  font-family: $font-sans;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: $green;
+}
+
+.list {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.button {
+  @include flex-center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid $grey-light;
+  border-radius: 50%;
+  background: $white;
+  color: $green;
+  cursor: pointer;
+  transition:
+    color $transition-fast,
+    background-color $transition-fast,
+    border-color $transition-fast,
+    transform $transition-fast;
+
+  &:hover {
+    color: $white;
+    background: $green;
+    border-color: $green;
+    transform: translateY(-2px);
+  }
+
+  &:focus-visible {
+    outline: 2px solid $gold;
+    outline-offset: 2px;
+  }
+}
+
+.copied {
+  color: $white;
+  background: $green-mid;
+  border-color: $green-mid;
+}
+
+.copiedText {
+  font-family: $font-sans;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: $green-mid;
+}

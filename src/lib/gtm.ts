@@ -167,6 +167,36 @@ export function heroCTAClick(label: string): void {
   });
 }
 
+/** Fire when a user shares a product or article (GA4 recommended "share" event) */
+export function shareContent(params: {
+  method: string; // facebook | x | pinterest | whatsapp | email | copy_link | native
+  contentType: "product" | "article";
+  itemId: string; // product or article handle
+}): void {
+  pushEvent({
+    event: "share",
+    method: params.method,
+    content_type: params.contentType,
+    item_id: params.itemId,
+  });
+}
+
+/** Fire when a block of product recommendations is rendered */
+export function viewRecommendations(params: {
+  listId: string;
+  listName: string;
+  items: GTMProduct[];
+}): void {
+  pushEvent({
+    event: "view_item_list",
+    ecommerce: {
+      item_list_id: params.listId,
+      item_list_name: params.listName,
+      items: params.items,
+    },
+  });
+}
+
 // ── Helpers ────────────────────────────────────────────────────────────────
 
 /** Convert a Shopify product + variant into a GTMProduct */

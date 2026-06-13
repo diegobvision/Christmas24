@@ -3,15 +3,17 @@
 import { useCart } from "@/context/CartContext";
 import { toGTMProduct, viewItem } from "@/lib/gtm";
 import { Product, ProductVariant, formatMoney } from "@/lib/shopify";
+import ShareButtons from "@/components/ShareButtons/ShareButtons";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import styles from "./ProductPage.module.scss";
 
 interface Props {
   product: Product;
+  shareUrl: string;
 }
 
-export default function ProductPageClient({ product }: Props) {
+export default function ProductPageClient({ product, shareUrl }: Props) {
   const { addItem, isLoading } = useCart();
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedOptions, setSelectedOptions] = useState<
@@ -217,6 +219,17 @@ export default function ProductPageClient({ product }: Props) {
               dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}
             />
           )}
+
+          {/* Share */}
+          <div className={styles.shareRow}>
+            <ShareButtons
+              url={shareUrl}
+              title={product.title}
+              contentType="product"
+              id={product.handle}
+              image={product.featuredImage?.url}
+            />
+          </div>
 
           {/* Perks
           <div className={styles.perks}>

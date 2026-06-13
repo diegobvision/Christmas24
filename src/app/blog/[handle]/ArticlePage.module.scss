@@ -60,6 +60,18 @@
   border-radius: $border-radius-lg;
 }
 
+// ── Share row ────────────────────────────────────────────────────────────────
+.shareRow {
+  max-width: 720px;
+  margin-inline: auto;
+  padding-inline: $space-lg;
+  margin-top: $space-xl;
+
+  @include sm-down {
+    padding-inline: $space-md;
+  }
+}
+
 // ── Article body ─────────────────────────────────────────────────────────────
 .prose {
   max-width: 720px;

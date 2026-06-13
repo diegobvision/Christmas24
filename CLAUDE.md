@@ -50,11 +50,15 @@ src/
 │   ├── BlogCard/                         # Article card (16/9 image, author, date, excerpt) + TagPill
 │   ├── HeroBanner/                       # Full-viewport hero on homepage
 │   ├── FeaturedCollection/               # Async server component — 4 best-selling products
+│   ├── ShareButtons/                     # Client component — social share + copy link (product & article pages)
+│   ├── BlogRecommendations/              # Async server component — tag-matched products at end of article
+│   │   └── RecommendationsTracker.tsx    # Client — fires view_item_list when recs render
 │   └── Footer/
 ├── context/
 │   └── CartContext.tsx                   # Cart state — add/update/remove, open/close drawer
 ├── lib/
-│   └── shopify.ts                        # All Shopify GraphQL queries + TypeScript types
+│   ├── shopify.ts                        # All Shopify GraphQL queries + TypeScript types
+│   └── gtm.ts                            # GA4 / GTM dataLayer helpers (typed event pushers)
 └── styles/
     ├── _variables.scss                   # Colours, spacing, typography, shadows, z-index
     ├── _mixins.scss                      # Breakpoints, layout, button, card, focus mixins
@@ -145,6 +149,52 @@ NEXT_PUBLIC_NAV_COLLECTIONS=tree-decorations,gifts,stocking-fillers
 - Article URLs are `/blog/<article-handle>` — the blog handle is not in the URL. The article page resolves the owning blog internally by looping over `getBlogHandles()`, since article handles are unique within a blog.
 - All articles are pre-rendered at build time via `generateStaticParams`; new articles published after a deploy are still served on demand thanks to ISR.
 - The listing page's tag filter is purely client-side (in `BlogClient.tsx`) and only renders if articles have tags.
+
+---
+
+## Conversion & engagement features
+
+### Social sharing (`ShareButtons`)
+
+- Client component rendered on **product pages** (inside `ProductPageClient`, below add-to-cart) and **blog articles** (below the article body).
+- Buttons: Facebook, X, Pinterest, WhatsApp, Email, and a **Copy link** button (uses the Clipboard API, shows a "Link copied!" confirmation).
+- Props: `url` (absolute, passed from the server component using `NEXT_PUBLIC_SITE_URL`), `title`, `contentType` (`"product" | "article"`), `id` (handle), optional `image` (used as the Pinterest media).
+- On every interaction it pushes a GA4 `share` event via `shareContent()` in `lib/gtm.ts` **and** exposes stable `data-gtm` attributes for GTM CSS-selector triggers (see below).
+
+### Blog product recommendations (`BlogRecommendations`)
+
+- Async server component rendered at the **end of every blog article**, passed `article.tags`.
+- Logic: `getProductsByTags(tags)` finds products sharing **any** of the article's tags (Shopify `query: tag:"x" OR tag:"y"`, sorted `BEST_SELLING`). If **no products match**, it falls back to the **first handle in `NEXT_PUBLIC_NAV_COLLECTIONS`** (`getNavCollectionHandles()[0]`) via `getFeaturedCollectionProducts`.
+- Renders `ProductCard`s with `listId="blog-recommendations"`, so card clicks fire the existing `select_item` event. `RecommendationsTracker` (client) fires one `view_item_list` event on mount.
+- Returns `null` if neither tags nor the fallback collection yield products.
+
+### GTM tracking hooks
+
+All hooks are **stable `data-gtm` attributes** (SCSS-module class names are hashed and cannot be targeted in GTM — use these instead). Two complementary mechanisms, both already wired:
+
+**1. dataLayer events** (preferred — typed pushers in `lib/gtm.ts`):
+
+| Event | Fires when | Key params |
+|---|---|---|
+| `share` | A share/copy button is clicked | `method` (facebook/x/pinterest/whatsapp/email/copy_link), `content_type`, `item_id` |
+| `view_item_list` | Recommendation block renders | `ecommerce.item_list_id = "blog-recommendations"`, `items` |
+| `select_item` | A recommended product card is clicked | `ecommerce.item_list_id = "blog-recommendations"`, `items` |
+
+**2. CSS-selector hooks** (for click triggers without code):
+
+| Selector | Element |
+|---|---|
+| `[data-gtm="share"]` | Any individual share/copy button (also has `data-gtm-share-method`, `data-gtm-share-content-type`, `data-gtm-share-id`) |
+| `[data-gtm="share-bar"]` | The share bar wrapper |
+| `[data-gtm="blog-recommendations"]` | The recommendations section (also has `data-gtm-rec-source` = `tag-match` or `collection-fallback`) |
+| `[data-gtm="blog-recommendations"] [data-gtm="product-card"]` | A clicked recommended product |
+
+**GTM container setup (one-time):**
+1. **Variables** — create Data Layer Variables: `dlv - method`, `dlv - content_type`, `dlv - item_id`, `dlv - ecommerce.item_list_id`.
+2. **Share trigger** — Custom Event trigger on event name `share` → GA4 Event tag `share` mapping `method` / `content_type` / `item_id`. (Or a Click trigger on CSS selector `[data-gtm="share"]` reading the `data-gtm-share-*` attributes via Auto-Event / DOM-element variables.)
+3. **Recommendation view trigger** — Custom Event trigger on `view_item_list`, filtered where `dlv - ecommerce.item_list_id` equals `blog-recommendations` → GA4 `view_item_list` tag.
+4. **Recommendation click trigger** — reuse the existing `select_item` GA4 tag; segment in GA4 on `item_list_id = blog-recommendations`. (Or a Click trigger on `[data-gtm="blog-recommendations"] [data-gtm="product-card"]`.)
+5. Requires `NEXT_PUBLIC_GTM_ID` set; the GA4 Configuration tag already fires on All Pages.
 
 ---
 

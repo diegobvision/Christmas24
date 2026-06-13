@@ -9,6 +9,8 @@ import {
 } from "@/lib/shopify";
 import TagPill from "@/components/BlogCard/TagPill";
 import { formatArticleDate } from "@/components/BlogCard/BlogCard";
+import ShareButtons from "@/components/ShareButtons/ShareButtons";
+import BlogRecommendations from "@/components/BlogRecommendations/BlogRecommendations";
 import styles from "./ArticlePage.module.scss";
 
 export const revalidate = 60;
@@ -69,6 +71,8 @@ export default async function ArticlePage({ params }: Props) {
   const article = await resolveArticle(handle);
   if (!article) notFound();
 
+  const url = `${siteUrl}/blog/${handle}`;
+
   return (
     <article className={styles.page}>
       <header className={styles.header}>
@@ -107,6 +111,18 @@ export default async function ArticlePage({ params }: Props) {
         className={styles.prose}
         dangerouslySetInnerHTML={{ __html: article.contentHtml }}
       />
+
+      <div className={styles.shareRow}>
+        <ShareButtons
+          url={url}
+          title={article.title}
+          contentType="article"
+          id={article.handle}
+          image={article.image?.url}
+        />
+      </div>
+
+      <BlogRecommendations tags={article.tags} />
     </article>
   );
 }

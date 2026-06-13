@@ -298,6 +298,35 @@ export async function searchProducts(
   return data.products.nodes;
 }
 
+// ── Products by tag (blog recommendations) ─────────────────────────────────
+
+/**
+ * Find products that share any of the given tags. Used to surface relevant
+ * products at the end of a blog article. Returns [] when no tags match so the
+ * caller can fall back to a default collection.
+ */
+export async function getProductsByTags(
+  tags: string[],
+  first = 4
+): Promise<Product[]> {
+  const cleaned = tags.map((t) => t.trim()).filter(Boolean);
+  if (cleaned.length === 0) return [];
+
+  // Build an OR query, e.g. (tag:"christmas" OR tag:"gifts")
+  const query = cleaned.map((t) => `tag:"${t.replace(/"/g, '\\"')}"`).join(" OR ");
+
+  const data = await shopifyFetch<{ products: { nodes: Product[] } }>(
+    `query ProductsByTags($query: String!, $first: Int!) {
+      products(first: $first, query: $query, sortKey: BEST_SELLING) {
+        nodes { ...ProductCard }
+      }
+    }
+    ${PRODUCT_CARD_FRAGMENT}`,
+    { query, first }
+  );
+  return data.products.nodes;
+}
+
 // ── All tags for a collection (for filter panel) ───────────────────────────
 
 export async function getCollectionTags(handle: string): Promise<string[]> {
