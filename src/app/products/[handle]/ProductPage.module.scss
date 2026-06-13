@@ -28,6 +28,12 @@
   position: sticky;
   top: calc($nav-height + $space-lg);
 
+  // On desktop, keep the whole gallery (main image + thumbnails) within the
+  // viewport below the fixed header so it's fully visible on landing.
+  @include lg-up {
+    height: calc(100vh - $nav-height - $space-lg * 2);
+  }
+
   @include md-down {
     position: static;
   }
@@ -39,6 +45,14 @@
   border-radius: $border-radius-lg;
   overflow: hidden;
   background: $grey-bg;
+
+  // Fill the space left over once thumbnails are laid out, instead of forcing
+  // a square that can overflow a short viewport.
+  @include lg-up {
+    aspect-ratio: auto;
+    flex: 1 1 auto;
+    min-height: 0;
+  }
 }
 
 .mainImg {

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { searchProducts } from "@/lib/shopify";
 import ProductCard from "@/components/ProductCard/ProductCard";
+import SearchInput from "./SearchInput";
 import styles from "./SearchPage.module.scss";
 
 export const revalidate = 30;
@@ -37,12 +38,13 @@ export default async function SearchPage({ searchParams }: Props) {
               {products.length} {products.length === 1 ? "product" : "products"} found
             </p>
           )}
+          <SearchInput initialQuery={query} />
         </div>
 
         {!query && (
           <div className={styles.prompt}>
             <span aria-hidden="true">🔍</span>
-            <p>Use the search bar above to find gifts and decorations.</p>
+            <p>Type above to find gifts and decorations.</p>
           </div>
         )}
 

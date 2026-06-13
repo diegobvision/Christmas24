@@ -17,6 +17,8 @@
   @include md-down {
     grid-template-columns: 1fr;
     gap: $space-xl;
+    justify-items: center;
+    text-align: center;
   }
 }
 
