@@ -22,7 +22,8 @@
       "Bash(grep -E '\\\\$border-radius:|\\\\$grey-light:|\\\\$green-mid:|\\\\$font-sans:|mixin btn-primary')",
       "Bash(grep -nE '^\\\\$\\(space|red|green|gold|cream|charcoal|grey|gray|white|border-radius|shadow|transition|font|z-\\)' /Users/diegopaganelli/Christmas24/src/styles/_variables.scss)",
       "Bash(npx next *)",
-      "Bash(echo \"EXIT: $?\")"
+      "Bash(echo \"EXIT: $?\")",
+      "mcp__mcp-registry__search_mcp_registry"
     ]
   }
 }

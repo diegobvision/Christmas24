@@ -1,13 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { usePathname } from "next/navigation";
-import { Collection } from "@/lib/shopify";
-import { useCart } from "@/context/CartContext";
 import MobileMenu from "@/components/MobileMenu/MobileMenu";
 import SearchBar from "@/components/SearchBar/SearchBar";
+import { useCart } from "@/context/CartContext";
+import { Collection } from "@/lib/shopify";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import styles from "./Navbar.module.scss";
 
 interface Props {
@@ -38,7 +38,11 @@ export default function NavClient({ collections }: Props) {
       <header className={`${styles.navbar} ${scrolled ? styles.scrolled : ""}`}>
         <div className={styles.inner}>
           {/* Logo */}
-          <Link href="/" className={styles.logo} aria-label="Christmas Shop 24 — Home">
+          <Link
+            href="/"
+            className={styles.logo}
+            aria-label="Christmas Shop 24 — Home"
+          >
             <Image
               src="/logo-light.svg"
               alt="Christmas Shop 24"
@@ -64,7 +68,7 @@ export default function NavClient({ collections }: Props) {
             ))}
             <Link
               href="/blog"
-              className={`${styles.navLink} ${
+              className={`${styles.navLink} ${styles.blogLink} ${
                 pathname.startsWith("/blog") ? styles.active : ""
               }`}
             >
@@ -119,7 +123,14 @@ export default function NavClient({ collections }: Props) {
 
 function SearchIcon() {
   return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+    >
       <circle cx="11" cy="11" r="8" />
       <line x1="21" y1="21" x2="16.65" y2="16.65" />
     </svg>
@@ -128,7 +139,14 @@ function SearchIcon() {
 
 function CartIcon() {
   return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+    >
       <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
       <line x1="3" y1="6" x2="21" y2="6" />
       <path d="M16 10a4 4 0 01-8 0" />
@@ -138,7 +156,14 @@ function CartIcon() {
 
 function HamburgerIcon() {
   return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <svg
+      width="22"
+      height="22"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+    >
       <line x1="3" y1="6" x2="21" y2="6" />
       <line x1="3" y1="12" x2="21" y2="12" />
       <line x1="3" y1="18" x2="21" y2="18" />

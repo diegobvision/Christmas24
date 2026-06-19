@@ -1,5 +1,5 @@
-@use '@/styles/variables' as *;
-@use '@/styles/mixins' as *;
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
 
 .navbar {
   position: fixed;
@@ -10,7 +10,9 @@
   height: $nav-height;
   background: $green;
   color: $white;
-  transition: box-shadow $transition-mid, background $transition-mid;
+  transition:
+    box-shadow $transition-mid,
+    background $transition-mid;
 }
 
 .scrolled {
@@ -68,7 +70,9 @@
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: rgba($white, 0.85);
-  transition: color $transition-fast, background $transition-fast;
+  transition:
+    color $transition-fast,
+    background $transition-fast;
 
   &:hover {
     color: $white;
@@ -78,6 +82,25 @@
   &.active {
     color: $gold;
     background: rgba($gold, 0.12);
+  }
+}
+
+.blogLink {
+  position: relative;
+  margin-left: $space-lg;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -$space-md;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: $gold;
+    box-shadow: 0 0 0 3px rgba($gold, 0.2);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
   }
 }
 
@@ -94,7 +117,9 @@
   height: 40px;
   border-radius: 50%;
   color: $white;
-  transition: background $transition-fast, color $transition-fast;
+  transition:
+    background $transition-fast,
+    color $transition-fast;
 
   @include focus-ring;
 
