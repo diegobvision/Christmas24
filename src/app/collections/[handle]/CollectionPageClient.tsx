@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useTransition, useEffect } from "react";
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
-import Image from "next/image";
-import { Product, ShopifyImage } from "@/lib/shopify";
-import { viewItemList, filterUsed, toGTMProduct } from "@/lib/gtm";
 import ProductCard from "@/components/ProductCard/ProductCard";
+import { filterUsed, toGTMProduct, viewItemList } from "@/lib/gtm";
+import { Product, ShopifyImage } from "@/lib/shopify";
+import Image from "next/image";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState, useTransition } from "react";
 import styles from "./CollectionPage.module.scss";
 
 interface PageInfo {
@@ -56,13 +56,28 @@ export default function CollectionPageClient({
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
-  const [filtersOpen, setFiltersOpen] = useState(true);
+  const [filtersOpen, setFiltersOpen] = useState(false);
   const [minPrice, setMinPrice] = useState(
     currentFilters.minPrice?.toString() ?? "",
   );
   const [maxPrice, setMaxPrice] = useState(
     currentFilters.maxPrice?.toString() ?? "",
   );
+
+  useEffect(() => {
+    const desktopMediaQuery = window.matchMedia("(min-width: 1024px)");
+
+    const handleDesktopChange = (event: MediaQueryListEvent) => {
+      setFiltersOpen(event.matches);
+    };
+
+    setFiltersOpen(desktopMediaQuery.matches);
+    desktopMediaQuery.addEventListener("change", handleDesktopChange);
+
+    return () => {
+      desktopMediaQuery.removeEventListener("change", handleDesktopChange);
+    };
+  }, []);
 
   const updateParam = (key: string, value: string) => {
     const params = new URLSearchParams(searchParams.toString());
