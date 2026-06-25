@@ -23,7 +23,21 @@
       "Bash(grep -nE '^\\\\$\\(space|red|green|gold|cream|charcoal|grey|gray|white|border-radius|shadow|transition|font|z-\\)' /Users/diegopaganelli/Christmas24/src/styles/_variables.scss)",
       "Bash(npx next *)",
       "Bash(echo \"EXIT: $?\")",
-      "mcp__mcp-registry__search_mcp_registry"
+      "mcp__mcp-registry__search_mcp_registry",
+      "Bash(curl -s https://www.christmasshop24.com/robots.txt)",
+      "Bash(curl -s https://www.christmasshop24.com/sitemap.xml)",
+      "Bash(curl -s https://www.christmasshop24.com/)",
+      "Bash(curl -sI https://www.christmasshop24.com/)",
+      "Bash(curl -sI https://christmasshop24.com/)",
+      "Bash(curl -sI http://www.christmasshop24.com/)",
+      "Bash(curl -s -o /tmp/prod.html -w \"status=%{http_code}\\\\n\" https://www.christmasshop24.com/products/christmas-building-block-san)",
+      "Bash(curl -sI https://www.christmasshop24.com/collections/tree-decorations)",
+      "Bash(curl -s https://christmasshop24.com/)",
+      "Bash(curl -sIL https://christmasshop24.com/)",
+      "Bash(curl -sI http://christmasshop24.com/)",
+      "Bash(curl -sIL https://christmas-shop-24-2.myshopify.com/)",
+      "Bash(curl -s https://__TRACKED_VAR__/)",
+      "Bash(curl -s \"https://www.googletagmanager.com/gtm.js?id=GTM-5NG9RV9K\" -o /tmp/gtm.js -w \"status=%{http_code} bytes=%{size_download}\\\\n\")"
     ]
   }
 }

@@ -196,6 +196,27 @@ All hooks are **stable `data-gtm` attributes** (SCSS-module class names are hash
 4. **Recommendation click trigger** — reuse the existing `select_item` GA4 tag; segment in GA4 on `item_list_id = blog-recommendations`. (Or a Click trigger on `[data-gtm="blog-recommendations"] [data-gtm="product-card"]`.)
 5. Requires `NEXT_PUBLIC_GTM_ID` set; the GA4 Configuration tag already fires on All Pages.
 
+### Live GTM container structure
+
+- **Container:** `GTM-5NG9RV9K` — **GA4 Measurement ID:** `G-XY6QN8BNWJ`.
+- **One GA4 Configuration tag** (Google Tag `G-XY6QN8BNWJ`) fires on initialization (`gtm.init`) / All Pages and sets the default Measurement ID for the page. The GA4 Event tags below carry **no explicit Measurement ID** — they inherit it from this Google Tag.
+- **Nine GA4 Event tags**, each fired by its **own Custom Event trigger** matching the event name exactly (`{{Event}} equals <name>`, no regex). This is a strict 1:1 mapping:
+
+| Custom Event trigger (`Event ==`) | GA4 Event tag | dataLayer pusher in `lib/gtm.ts` |
+|---|---|---|
+| `add_to_cart` | `add_to_cart` | `addToCart()` |
+| `begin_checkout` | `begin_checkout` | `beginCheckout()` |
+| `view_item` | `view_item` | `viewItem()` |
+| `view_item_list` | `view_item_list` | `viewItemList()` / `viewRecommendations()` |
+| `select_item` | `select_item` | `selectItem()` |
+| `search` | `search` | `trackSearch()` |
+| `filter_used` | `filter_used` | `filterUsed()` |
+| `hero_cta_click` | `hero_cta_click` | `heroCTAClick()` |
+| `share` | `share` | `shareContent()` |
+
+- **⚠️ Trigger discipline — do not use a catch-all trigger.** Each event tag must use an exact-match Custom Event trigger. A previous version (v4) fired all nine event tags on a single "All Events" / `{{Event}}` matches RegEx `.*` trigger, so every page load and every dataLayer push fired *all* events at once — `begin_checkout` (and every other event) was massively inflated and cross-contaminated. Fixed in v5. When adding a new event, give it its own Custom Event trigger; never reuse `.*`.
+- **Purchase tracking is out of scope of this container.** Checkout completes on the Shopify-hosted domain (`christmas-shop-24-2.myshopify.com`), where this container does not run. To capture `purchase`, add GA4 (`G-XY6QN8BNWJ`) on the **Shopify side** (Google & YouTube channel / Customer Events) and enable **cross-domain measurement** for both domains in the GA4 data stream. Without this, GA4 shows `begin_checkout` but never `purchase`, even for completed orders.
+
 ---
 
 ## Key patterns & conventions
